@@ -11,11 +11,6 @@
 \usepackage{array}
 % pakiet stosowany do url'i w bibliografii, zamienia odnośniki na ładnie sformatowane
 \usepackage{url}
-
-
-
-
-
 % pakiety służące do numerowania i tworzenia algorytmów
 \usepackage{algorithmic}
 \usepackage{algorithm}
@@ -29,7 +24,6 @@
 \usepackage{pgf}
 % pakiet służący do automatycznego sortowania odnośników do bibliografii
 \usepackage[sort]{natbib}
-
 % tworzenie listingów
 \usepackage{listings}
 % tworzenie figur wewnątrz figur
@@ -126,9 +120,7 @@
 \usepackage{multirow}
 
 \usepackage{slantsc}
-\usepackage[labelsep= space]{caption}
-\usepackage[font=small,labelfont=bf]{caption}
-\usepackage[justification=centering]{caption}
+\usepackage[labelsep=endash]{caption}
 \addto\captionspolish{\renewcommand{\figurename}{Rys.}}
 \addto\captionspolish{\renewcommand{\tablename}{Tab.}}
 \addto\captionspolish{\renewcommand*{\appendixpagename}{Dodatki}}
@@ -136,54 +128,10 @@
 \addto\captionspolish{\renewcommand*{\appendixname}{Dodatek}}
 
 
-\usepackage{helvet}
-%\renewcommand{\familydefault}{\sfdefault}
-
 
 \usepackage[toc,page]{appendix}
 
 \begin{document}
-\includepdf[pages={1}]{titlePage.pdf}
-\newpage
-\thispagestyle{empty}
-\mbox{}
-\includepdf[pages={1}]{oswiadczenie.pdf}
-\newpage
-\thispagestyle{empty}
-\mbox{}
-\chapter{Streszczenie}
-\chapter{Abstract}
-\tableofcontents
-\include{Chapters/chapter1}
-\include{Chapters/chapter2}
-\include{Chapters/chapter3}
-\section{Podsumowanie}
-\chapter{Specyfikacja wymagań}
-\section{Wymagania funkcjonalne}
-\subsection{Cele biznesowe}
-\subsection{Możliwość dalszego rozwoju}
-\section{Wymagania pozafunkcjonalne}
-\subsection{Interfejs oprogramownia}
-\subsection{Ergonomia}
-\subsection{Ograniczenia}
-\section{Podsumowanie}
-\chapter{Projekt programu wspomagającego komunikację z chorymi na ALS}
-\section{Wybrane technologie}
-\subsection{System operacyjny}
-\subsection{QT}
-\subsection{C++}
-\section{Projekt interfejsu}
-\section{Projekt interakcji}
-\subsection{Diagram klas }
-\subsection{Podsumowanie}
-\chapter{Zastosowane rozwiązanie - implementacja}
-\section{Opis rozwiązania}
-\section{Opis klas zastosowanych }
-\section{Testy}
-\section{Wyniki}
 
-\bibliographystyle{unsrt}
-\bibliography{bibliografia}
-
-
+\include{Chapters\PracaDymplomowaInżynierska.pdf}
 \end{document}
