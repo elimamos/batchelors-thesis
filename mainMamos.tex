@@ -151,36 +151,21 @@
 \newpage
 \thispagestyle{empty}
 \mbox{}
-\chapter{Streszczenie}
-\chapter{Abstract}
+{\renewcommand{\addtocontents}[2]{}
+\chapter*{Streszczenie}}
 \tableofcontents
 \include{Chapters/chapter1}
 \include{Chapters/chapter2}
 \include{Chapters/chapter3}
-
-\chapter{Specyfikacja wymagań}
-\section{Wymagania funkcjonalne}
-\subsection{Cele biznesowe}
-\subsection{Możliwość dalszego rozwoju}
-\section{Wymagania pozafunkcjonalne}
-\subsection{Interfejs oprogramownia}
-\subsection{Ergonomia}
-\subsection{Ograniczenia}
-\section{Podsumowanie}
-\chapter{Projekt programu wspomagającego komunikację z chorymi na ALS}
-\section{Wybrane technologie}
-\subsection{System operacyjny}
-\subsection{QT}
-\subsection{C++}
-\section{Projekt interfejsu}
-\section{Projekt interakcji}
-\subsection{Diagram klas }
-\subsection{Podsumowanie}
-\chapter{Zastosowane rozwiązanie - implementacja}
+\chapter{Projekt aplikacji}
+\chapter{Implementacja}
 \section{Opis rozwiązania}
-\section{Opis klas zastosowanych }
-\section{Testy}
-\section{Wyniki}
+\section{Opis klas zastosowanych}
+\chapter{Test i wyniki}
+\chapter{Podsumowanie}
+
+
+
 
 \bibliographystyle{unsrt}
 \bibliography{bibliografia}
