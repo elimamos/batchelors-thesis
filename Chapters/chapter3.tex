@@ -158,10 +158,10 @@ C++ jest powszechnie stosowanym językiem programistycznym, będącym potomkiem 
 System składa się z warstwy aplikacji oraz warstwy transportowej. Komunikacja zrealizowana jest za pomocą broadcastu przy pomocy protokołu UDP (user data protocol). 
 
 \subsection{Architektura aplikacji}
-Aplikację zrealizowano w wyżej wymienionym języku C++ z wykrzystaniem wielu bibliotek QT np. QWidget, QString, QtGui,QPainter itd.. Do funkcji autouzupełniania tekstu posłużono się algorytmem wykorzystującym skompresowane drzewo trie. 
+Aplikację zrealizowano w wyżej wymienionym języku C++ z wykorzystaniem wielu bibliotek QT np. QWidget, QString, QtGui,QPainter itd.. Do funkcji auto uzupełniania tekstu posłużono się algorytmem wykorzystującym skompresowane drzewo trie. 
 \subsubsection{Sompresowane Drzewo Trie}
 Drzewo Trie jest drzewem służącym docelowo do sortowania wartości tesktowego typu danych, w którym każdemu węzłowi przypisany jest  wspólny prefix(fragment klucza). Wartości tekstowe zapisywane są w liściach drzewa. ~\citep{trieTree}
-Do drzewa wczytywane zostają wszystkie słowa z danego mu słownika, a następnie każde rozkłada się na litery i rozmieszcza w drzewie, tak by czytając znaki od korzenia do liścia tworzyły porządany ciąg. Biorą na przykład słownik składający się z następujących słow: mak, róża, kolec, małż, koc, moher otrzymujemy następujące drzewo ~\ref{fig:trie}.
+Do drzewa wczytywane zostają wszystkie słowa z danego mu słownika, a następnie każde rozkłada się na litery i rozmieszcza w drzewie, tak by czytając znaki od korzenia do liścia tworzyły pożądany ciąg. Biorą na przykład słownik składający się z następujących słów: mak, róża, kolec, małż, koc, moher otrzymujemy następujące drzewo ~\ref{fig:trie}.
 \begin{figure}[!h]
 		\centering
 		\scalebox{.7}{
@@ -169,17 +169,17 @@ Do drzewa wczytywane zostają wszystkie słowa z danego mu słownika, a następn
 		\caption{Przykładowe drzewo typu Trie. }
 		\label{fig:trie}
 \end{figure}
-W ten sposób poszukując słow zaczynających się na "ko" w bardzo prosty sposób możemy określić, że zaliczają się do nich koc oraz kolec. \\
-Drzewo to w znaczący sposób skraca czas przeszukiwania dużych słowników (w wypadku tego projektu 3639970 wyrazów) i umożliwia np. autouzupełnianie albo korektę słów bierząco wpisywanych przez użytkownika.
+W ten sposób poszukując słów zaczynających się na "ko" w bardzo prosty sposób możemy określić, że zaliczają się do nich koc oraz kolec. \\
+Drzewo to w znaczący sposób skraca czas przeszukiwania dużych słowników (w wypadku tego projektu 3639970 wyrazów) i umożliwia np. auto uzupełnianie albo korektę słów bieżąco wpisywanych przez użytkownika.
 
-Zastosowany algorytm wykorzystuje fakt występowania wspólnych węzłów i zapamiętuje jedynie numer ostatniego węzła związanego z wyszukiwanym słowem np. dla frazy "ko" - węzeł nr. 2, a następnie pobiera wartości wszystkich dzieci tego węzła, zespala je i tworzy wszystkie możliwe końcówki (tu "c" oraz "lec"), które w połączeniu z szukaną frazą dają "autouzupełniane" słowa.
+Zastosowany algorytm wykorzystuje fakt występowania wspólnych węzłów i zapamiętuje jedynie numer ostatniego węzła związanego z wyszukiwanym słowem np. dla frazy "ko" - węzeł nr. 2, a następnie pobiera wartości wszystkich dzieci tego węzła, zespala je i tworzy wszystkie możliwe końcówki (tu "c" oraz "lec"), które w połączeniu z szukaną frazą dają "auto uzupełniane" słowa.
 \subsection{Komunikacja aplikacji}
 System umożliwia komunikację poprzez broadcast z innymi użytkownikami jak i poprzez specjalne API Google z przeglądarką internetową. 
 
-Broadcast jest metodą komunikacji (rozsyłania danych) między jednym nadawacą, a wieloma odbiorcami w tym samym czasie. Jest to dyfuzyjny, jednokierunkowy tryb  transmijcji charakteystyczny dla sieci LAN. Protokołem regulującym dany ruch sieciowy jest w tym wypadku UDP (User Datagram Protocol). Jest to bezpołączeniowy protokół, który pozwala aplikacjom dobudować własne - niezbędne do poprawnego działania protokoły. 
-Zapewnia on aplikacji możliwość wysyłania enkapsulowanych datagramów IP bez potrzeby wytworzenia połączenia. Nie dba on więc o to, czy wysłane ramki dotrą do odbiorcy w całości.
-UDP transmituje segmenty zlożone z 8-bajtowego nagłówka oraz fragment przesyłanych danych, będący formą wiadomości. 
-UDP zapewnia infomację o portach źródłowych i docelowych. 
+Broadcast jest metodą komunikacji (rozsyłania danych) między jednym nadawcą, a wieloma odbiorcami w tym samym czasie. Jest to dyfuzyjny, jednokierunkowy tryb  transmisji charakterystyczny dla sieci LAN. Protokołem regulującym dany ruch sieciowy jest w tym wypadku UDP (User Datagram Protocol). Jest to bezpołączeniowy protokół, który pozwala aplikacjom dobudować własne - niezbędne do poprawnego działania, protokoły. 
+Zapewnia on aplikacji możliwość wysyłania enkapsulowanych datagramów IP bez potrzeby wytworzenia połączenia, co jest jednocześnie dużo szybszą metodą komunikacji, niż tryb synchroniczny. Nie dba on o to, czy wysłane ramki dotrą do odbiorcy w całości, co jest typowe dla komunikacji asynchronicznej.
+UDP transmituje segmenty złożone z 8-bajtowego nagłówka oraz fragment przesyłanych danych, będący formą wiadomości. 
+UDP zapewnia informację o portach źródłowych i docelowych. 
 Port źródłowy jest przydatny w momencie, gdy urządzenie odbiorcy zechce odesłać odpowiedź na otrzymany segment.
 Rozmiar ramki wynosi od 8-65 515 bajtów. ~\cite{UDP}
 
