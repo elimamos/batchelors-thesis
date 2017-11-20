@@ -117,6 +117,7 @@
 
 \usepackage[section] {placeins}
 
+
 \usepackage{multirow}
 
 \usepackage{slantsc}
@@ -127,17 +128,20 @@
 \addto\captionspolish{\renewcommand*{\appendixtocname}{Dodatki}}
 \addto\captionspolish{\renewcommand*{\appendixname}{Dodatek}}
 
-
+\setcounter{secnumdepth}{5}
 
 \usepackage[toc,page]{appendix}
 
 \begin{document}
 
 \chapter{Analiza projektowa}
-
+Rozdział poświęcony analizie wybranych technologii oraz wymagań projektu. Przedstawiono również wstępną analizę dotyczącą przypadków użycia oraz metod testowania produktu.
 \section{Wybrane technologie}
-%\subsection{System operacyjny}
-\subsection{QT}QT jest zespołem przenośnych bibliotek oraz narzędzi programistycznych stworzonych w C++ do tworzenia aplikacji desktopowych, zagnieżdżonych, jak również mobilnych. Wspiera systemy takie jak: Linux, OS X, Widows, xWorks, QNX, Android, iOS, BlackBerry, Sailfish OS, dzięki czemu jest nadzwyczaj uniwersalnym narzędziem kompatybilnym z następującymi językami programowania: C++, QML (QT Modeling Language), Python, Ring, Go, Rust, PHP i Java.~\cite{qtAbout}~\cite{qtLang}\\
+Krótki opis teoretyczny wybranych technologii - C++ oraz bibliotek QT. 
+
+\subsection{QT}
+
+QT jest zespołem przenośnych bibliotek oraz narzędzi programistycznych stworzonych w C++ do tworzenia aplikacji desktopowych, zagnieżdżonych, jak również mobilnych. Wspiera systemy takie jak: Linux, OS X, Widows, xWorks, QNX, Android, iOS, BlackBerry, Sailfish OS, dzięki czemu jest nadzwyczaj uniwersalnym narzędziem kompatybilnym z następującymi językami programowania: C++, QML (QT Modeling Language), Python, Ring, Go, Rust, PHP i Java.~\cite{qtAbout}~\cite{qtLang}\\
 QT zapewnia listę dodatkowych możliwości rozszerzających C++. Są to między innymi: \\
 - mechanizmy pozwalające na komunikację między obiektami zwane sygnałami i otworami (slots)\\
 - wyjątkowa możliwość edycji wyglądu i responsywności obiektów \\
@@ -148,16 +152,89 @@ QT zapewnia listę dodatkowych możliwości rozszerzających C++. Są to między
 ~\cite{qtLang}
 \subsection{C++}
 
+C++ jest powszechnie stosowanym językiem programistycznym, będącym potomkiem języka C, w którym wprowadzono szereg udogodnień.W porównaniu z C, C++ zapewnia dokładniejsze sprawdzanie typów danych, wspiera abstrakcje, programowanie obiektowe (z tego względu mówi się o nim jako o języku pseudo-obiektowym), programowanie uogólnione i więcej styli programistycznych. Do wspieranych założeń programowania obiektowego należą polimorfizm, enkapsulacja i dziedziczenie.Nowsza wersja C posiada również bardzo dużą ilość bibliotek, których wykorzystanie znacznie ułatwia jego wykorzystanie.
+
 \section{Architektura systemu}
+System składa się z warstwy aplikacji oraz warstwy transportowej. Komunikacja zrealizowana jest za pomocą broadcastu przy pomocy protokołu UDP (user data protocol). 
+
+\subsection{Architektura aplikacji}
+Aplikację zrealizowano w wyżej wymienionym języku C++ z wykrzystaniem wielu bibliotek QT np. QWidget, QString, QtGui,QPainter itd.. Do funkcji autouzupełniania tekstu posłużono się algorytmem wykorzystującym skompresowane drzewo trie. 
+\subsubsection{Sompresowane Drzewo Trie}
+Drzewo Trie jest drzewem służącym docelowo do sortowania wartości tesktowego typu danych, w którym każdemu węzłowi przypisany jest  wspólny prefix(fragment klucza). Wartości tekstowe zapisywane są w liściach drzewa. ~\citep{trieTree}
+Do drzewa wczytywane zostają wszystkie słowa z danego mu słownika, a następnie każde rozkłada się na litery i rozmieszcza w drzewie, tak by czytając znaki od korzenia do liścia tworzyły porządany ciąg. Biorą na przykład słownik składający się z następujących słow: mak, róża, kolec, małż, koc, moher otrzymujemy następujące drzewo ~\ref{fig:trie}.
+\begin{figure}[!h]
+		\centering
+		\scalebox{.7}{
+		\includegraphics[width=0.7\textwidth]{img/trie.jpg}}
+		\caption{Przykładowe drzewo typu Trie. }
+		\label{fig:trie}
+\end{figure}
+W ten sposób poszukując słow zaczynających się na "ko" w bardzo prosty sposób możemy określić, że zaliczają się do nich koc oraz kolec. \\
+Drzewo to w znaczący sposób skraca czas przeszukiwania dużych słowników (w wypadku tego projektu 3639970 wyrazów) i umożliwia np. autouzupełnianie albo korektę słów bierząco wpisywanych przez użytkownika.
+
+Zastosowany algorytm wykorzystuje fakt występowania wspólnych węzłów i zapamiętuje jedynie numer ostatniego węzła związanego z wyszukiwanym słowem np. dla frazy "ko" - węzeł nr. 2, a następnie pobiera wartości wszystkich dzieci tego węzła, zespala je i tworzy wszystkie możliwe końcówki (tu "c" oraz "lec"), które w połączeniu z szukaną frazą dają "autouzupełniane" słowa.
+\subsection{Komunikacja aplikacji}
+System umożliwia komunikację poprzez broadcast z innymi użytkownikami jak i poprzez specjalne API Google z przeglądarką internetową. 
+
+Broadcast jest metodą komunikacji (rozsyłania danych) między jednym nadawacą, a wieloma odbiorcami w tym samym czasie. Jest to dyfuzyjny, jednokierunkowy tryb  transmijcji charakteystyczny dla sieci LAN. Protokołem regulującym dany ruch sieciowy jest w tym wypadku UDP (User Datagram Protocol). Jest to bezpołączeniowy protokół, który pozwala aplikacjom dobudować własne - niezbędne do poprawnego działania protokoły. 
+Zapewnia on aplikacji możliwość wysyłania enkapsulowanych datagramów IP bez potrzeby wytworzenia połączenia. Nie dba on więc o to, czy wysłane ramki dotrą do odbiorcy w całości.
+UDP transmituje segmenty zlożone z 8-bajtowego nagłówka oraz fragment przesyłanych danych, będący formą wiadomości. 
+UDP zapewnia infomację o portach źródłowych i docelowych. 
+Port źródłowy jest przydatny w momencie, gdy urządzenie odbiorcy zechce odesłać odpowiedź na otrzymany segment.
+Rozmiar ramki wynosi od 8-65 515 bajtów. ~\cite{UDP}
+
+Google Custom Search umożliwia stworzenie własnej wyszukiwarki umożliwiającej na przeszukiwanie zarówno stron internetowych jak i obrazów. Możliwe jest zawężenie i personalizacja wyników wyszukiwania np. do wyników pochodzących z konkretnej strony, lub zawierających sprecyzowaną frazę.  Google Seachr Engine występuje w dwóch wersjach - Custom Search Engine, która jest darmowa oraz Google Site Search, które jest werjsą płatną. Do potrzeb projektowych wystraczająca jest wersja darmowa, która umożliwia korzytsanie z dodatkowych API umożliwiających zwrócenie wyników wyszukiwania w postaci pliku XML czy też JSON. API te upraszaczją komunikację aplikacji z przeglądarką do zapytań RESTowych typu get w celu otrzymania uporządkowanej struktury danych. ~\cite{googleAPI}
+
+
+ 
 \section{Wymagania funkcjonalne}
-\section{Przypadki użycia}
+\subsection{Przypadki użycia}
+\begin{figure}[!h]
+		\centering
+		\includegraphics[scale=0.4]{img/useCase.jpg}
+		\caption{Wykres przypadków użycia stworzony za pomocą strony Gliffy.com}
+		\label{fig:useCase}
+\end{figure}
+
+\section{Propozycja rozwiązania}
+\subsection{Zakres projektu}
+
+\subsection{Interfejs oprogramownia}
+\begin{figure}[!h]
+		\centering
+		\scalebox{.9}{
+		\includegraphics[width=1\textwidth]{img/mainInactive.jpg}}
+		\caption{Początkowy wygląd aplikacji z nieaktywnymi przyciskami. }
+		\label{fig:add}
+\end{figure}
+\begin{figure}[!h]
+		\centering
+		\scalebox{.9}{
+		\includegraphics[width=1\textwidth]{img/mainActive.jpg}}
+		\caption{Aktywny wygląd aplikacji. }
+		\label{fig:add}
+\end{figure}
+\begin{figure}[!h]
+		\centering
+		\scalebox{.9}{
+		\includegraphics[width=1\textwidth]{img/auto.jpg}}
+		\caption{Przykład wyświetlanych opcji autouzupełniania. }
+		\label{fig:add}
+\end{figure}
+\begin{figure}[!h]
+		\centering
+		\scalebox{.9}{
+		\includegraphics[width=1\textwidth]{img/added.jpg}}
+		\caption{Tekst i podpowiedzi po wybraniu sugerowanego tekstu. }
+		\label{fig:add}
+\end{figure}
 \section{Projekt testów}
 
 
 \section{Cele biznesowe}
 \subsection{Możliwość dalszego rozwoju}
 \section{Wymagania pozafunkcjonalne}
-\subsection{Interfejs oprogramownia}
+
 \subsection{Ergonomia}
 \subsection{Ograniczenia}
 \section{Podsumowanie}
