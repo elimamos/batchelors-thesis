@@ -163,35 +163,75 @@ Określenie przycisku działającego odbywa się poprzez sprawdzenie ID przycisk
 \end{algorithm}
 \\Zadaniem wyżej wspomnianej funkcji executeTimerStep() jest sprawdzenie, czy dany przycisk był fiksowany przez odpowiednią ilość czas (zmienna, której wartość zależy od ilości pomyłek popełnionych przez użytkownika i dynamicznie zmieniana podczas korzystania z klawiatury – analizowane to jest w funkcji verifyTimerTickCount()). Jeżeli warunek ten został spełniony to dalszy przebieg działań zależy od tego, czy przycisk był specjalny, czy też nie oraz czy klawiatura nie znajduje się w trybie wstrzymania. 
 \subsection{Działanie przycisków specjalnych}
-W tabeli ~\ref{table:specialButtons}
-\begin{center}
+W tabeli ~\ref{table:specialButtons} wymieniono wszystkie specjalne przyciski z widoku klawiatury oraz opisano po krótce algorytm ich działania. W tabeli ~\ref{table:specialButtonsMenu} przedstawiono przyciski widoku menu oraz ich zachowania.
+
 \begin{table}
-    \begin{tabular}{ | c | c |}
+    \begin{tabular}{|p{4cm}|p{8.5cm}|}
         \hline
     \textbf{Nazwa przycisku} & \textbf{Działanie}\\ \hline
-    CapsLock & 11C . \\ \hline
-    Shift & 9C  \\ \hline
-    Znaki specjalne & 10C  \\ \hline
-    Backspace &.\\ \hline
-    Wyślij & .\\ \hline
-    Strzałka w lewo i prawo & .\\ \hline
-    Menu & .\\ \hline
-    Przyciski podpowiedzi &.\\ \hline
-    Wyjdź & .\\ \hline
-    Stop i start & .\\ \hline
-    Zmiana trybu wysyłania & .\\ \hline
-    Wyszukaj na podanej platformie &.\\ \hline
-    Przesuń się o jedno słow\\ w prawo lub w lewo &.\\ \hline
-    Czyść & .\\ \hline
-    Przesuń się w kierunku początku tekstu (home)\\ lub na jego koniec (end)&.\\ \hline
-    \end{tabular}
+     Backspace & Wywołuję metodą backspace() klasy Dictionary WIĘCEJ W OBSŁUGA TESKTU\\ \hline
+    CapsLock & W przypadku pierwszego wciśnięcia zmienia stan klawiatury z 0 na 1 i utrzymuje ją dopóki nie zostanie wybrany po raz wtóry lub wykonana zostanie czynność innego przycisku zmieniającego stan klawaiatury. \\ \hline
+ Czyść & Korzysta z metody resetAll() klasy Dictionary i powoduje czyszczenie edytora tekstowego oraz z nim związanych zmiennych jak currentPosition, currentWord, currentWordSart, wholeTxt (więcej na ten temat w rodziale ~\ref{sec:text}).\\ \hline
+Menu & Otwiera okno klasy Personalize.\\ \hline
+Przesuń się o jedno słow w prawo lub w lewo & Wywołuje funkcje jumpWord() klasy Dictionary, która powoduje przesunięcie się kursora na koniec poprzedniego słowa, lub na początek kolejnego. Każdorazowo zmieniana jest wartość zmiennej currentWord i wholeText.~\ref{sec:text}\\ \hline
+ Przesuń się w kierunku początku tekstu (home) lub na jego koniec (end) & Wybranie przycisku powoduje przesunięcie się kursora w jednym z dwóch kierunków oraz zmiane wartości zmiennej wholeText i currentWord (~\ref{sec:text}). \\ \hline
+ Przyciski podpowiedzi & Wyświetlane na nich są podpowiedzi, których tworzenie jest opisane w rodziale ~\ref{sec:trietree}. Ich użycie powoduje zastąpienie aktualnie wpisywanej frazy auto uzupłenionym słowem pobranym ze słownika. \\ \hline
+  Shift & W przypadku wciśnięcia zmieniony zostaje stan klawaiatury z 0 na 1, a po użyciu przycisku ze znakiem stan klawiatury wraca do stanu 0. \\ \hline
+   Stop i start & Wprowadza klawaiturę w stan wstrzymania lub w stan pracy. W zależności od wartości zmiennej isStop możliwe,lub nie, jest korzystanie z przycisków ze znakami.\\ \hline
+   Strzałka w lewo i prawo &  Korzystając z metody moveCursor klasy Dictionary przemieszcza kursor o jeden znak w danym kierunku. Może zmienić wartość currentWord (~\ref{sec:text}) korzystając z metod getCurrentWord() oraz getCurrentWordStart()(~\ref{sec:alg2}) opisanych w późniejszych rozdziałach.\\ \hline
+     Wyjdź & Powoduje opuszczenie aplikacji.\\ \hline 
+      Wyszukaj na podanej platformie & Przyciśniecie przycisku powoduje sprawdzenie połączenia internetowego, a następnie wysłanie wpisanej treści pola tekstowego do funkcji search() klasy GoogleSearcher. TUTAJ ODSYŁNIK DO KLASY\\ \hline
+        Wyślij & Wysyła dotychczas wpisany tekst na broadcast na port 45454 za pomocą metody writeDatagram() klasy QUdpSocket.\\ \hline
+    Zmiana trybu wyszukiwania & Strzałki powodują na zmianę trybu wyszukiwania. Do wyboru ''Google'', ''YouTube'', ''Filmweb''. Zmieniają wartość zmiennej sendingState niezbędnej do popranego działania funkcji  search() klasy GoogleSearcher.TUTAJ ODSYŁNIK DO KLASY\\ \hline 
+    Znaki specjalne & Zmiania stan klawiatury na odpowiednio 2 i 3 przy kolejnych kliknięciach. \\ \hline
+       \end{tabular}
     \caption{Lista specjalnych przycisków w raz z ich działaniem.} 
     \label{table:specialButtons}
 \end{table}
-\end{center} 
+
+\begin{table}
+    \begin{tabular}{|p{4cm}|p{8.5cm}|}
+        \hline
+    \textbf{Nazwa przycisku} &. \textbf{Działanie}\\ \hline
+       Strzałki zmieniające aktualną wartość progową czasu fiksacji & Strzałki powodują zmniejszenie lub zwiększenie wartości zmiennej tickCounter przechowującej ilość 200ms interwałów, po upływie których (w przypadku braku zmiany fiksowanego punktu) przycisk można uznać za wciśnięty. Początkowo czas ten wynosi 3s, jednak w wyniku dynamicznej korekty następującej, gdy użytkownik wykona mniej, lub więcej niż 5 błędów w ciągu minuty (średnio 25\%błednie wpisanych znaków), następuje zmniejszenie lub zwiększenie liczny tych interwałów. \\ \hline  
+       Strzałki zmieniajace wielkość czcionki w edytorze tekstu & Strzałki powodują zamianę właściwości edytora tekstu. \\ \hline
+       Strzałki zmieniające wygląd aplikacji & Użytkownik może wybrać między jednym z 5 wersji kolorystycznych poprzez dynamiczą zmianę wyglądu na podstawie danych z listy i aktualnego indeksu.  \\ \hline    
+       Wyjście & Powoduje zamknięcie okna menu. \\ \hline
+    \end{tabular}
+    \caption{Lista specjalnych przycisków z menu w raz z ich działaniem.} 
+    \label{table:specialButtonsMenu}
+\end{table}
 
 
-\section{Praca z tekstem}
+Jako wciśnięcie rozumie się tu czas fiksacji nad przyciskiem przekracający progową wartość. Stany klawiatury to odpowiednio 0-małe litery, 1-wielkie litery, 2-znaki specjalne strona pierwsza, 3-zanki specjalne strona druga, 4-polskie znaki, 5-menu kontekstowe dla polskich znaków.
+\subsection{Działanie przycisków nomalnych}
+Za wpisywanie znaków z klawiatury do edytora odpowiedzialna jest funkcja update() klasy Dictionary. Jest ona głównym zarządcą jeśli chodzi o wprowadzanie znaków w odpowiedniej pozycji. W pierwszym rzędzie sprawdzane jest, czy stan klawiatury różny jest od piątego (menu kontekstowe). Gdy spełniony jest dany warunek to porównywana jest aktualnie wprowadzana wartość z uprzednio wprowadzoną, o ile nie jest to pierwsze wprowadzenie znaku do edytora. W przypadku dwóch identycznych liter czyszczona jest zawartość piątego stanu klawiatury i przechodzi się do wywołania funkcji switchBetweenKeyboards(), która zwraca informację o tym, stan klawiatury się zmienił. Tam sprawdzane jest, czy wprowadzony znak jest jedną z liter posiadających polskie odpowiedniki tj. \textit{a, c, e, l, n, o, s, z}. Gdy znajdzie się wśród wymienionej listy, to dla odpowiadającego przycisku ustawiany jest test dla klawiatury stanu piątego i następuje jej wyświetlenie. Działanie takiego zachowania widać na rysunkach 
+ ~\ref{fig:startA},~\ref{fig:doubleA}.
+\begin{figure}[!h]
+		\centering
+		\scalebox{.7}{
+		\includegraphics[width=1\textwidth]{img/startA.jpg}}
+		\caption{Widok aplikacji z klawiatura w stanie zerowym po wpisaniu litery 'a'.}
+		\label{fig:startA}
+\end{figure}
+\begin{figure}[!h]
+		\centering
+		\scalebox{.7}{
+		\includegraphics[width=1\textwidth]{img/doubleA.jpg}}
+		\caption{Widok aplikacji z klawiaturą w stanie piątym po wpisaniu drugiej litery 'a'.}
+		\label{fig:doubleA}
+\end{figure}
+W innym wypadku aktualna litera dopisywana jest do aktualnie tworzonoego słowa (currentWord), kursor przesuwany jest o jedną pozycję w prawo. Gdy dodana jest spacja aktualnie przetwarzane słowo jest uznawane za skończone i zapamiętywany jest nowy początek kolejnego słowa. Odświeżony zostaje również widok podpowiedzi, których powstawanie omówiono w późniejszym rozdziale ~\ref{sec:trietree}.
+W sytuacji, gdy wybrana zostaje litera z menu kontekstowego (klawiatury w stanie piątym), to albo wpisany tekst zostaje podmieniony na polską literę,lub nie ulega zmianie. Przykładowo po wpisaniu ''aa'' użytkownik po raz kolejny wybiera literę ''a'' - tzn. planował wpisanie frazy ''aa''. Jeśli jednak decyduje się na literę ''ą'', to w miejsce widniejącego napisu ''aa'' pojawia się ''ą''.
+Poglądowy diagram przepływu przedstawiono no rysunku ~\ref{fig:wordFlow}.
+\begin{figure}[!h]
+		\centering
+		\scalebox{1}{
+		\includegraphics[width=1\textwidth]{img/writeFlow.jpg}}
+		\caption{Widok aplikacji z klawiaturą w stanie piątym po wpisaniu drugiej litery 'a'.}
+		\label{fig:wordFlow}
+\end{figure}
+\section{Praca z tekstem}~\label{sec:text}
 Wpisywanie tekstu w aplikacji odbywa się poprzez specjalny algorytm kontrolujący zawartość aktualnie pisanego słowa oraz całego tekstu. Podczas każdej chwili działania programu w pamięci przechowywany jest currentWord, czyli aktualne słowo tj. ciąg znaków, liter lub cyfr, które zaczynają się na początku wpisywanego tekstu lub po spacji, a kończą się w pozycji kursora. Dodanie spacji po ciągu znaków kończy słowo i usuwa je ze zmiennej currentWord, a dodaje do zmiennej zwanej wholeText, która przechowuje dotychczas wpisany tekst. Przykładowo jeśli mamy tekst jak na rysunku ~\ref{fig:sentence} to w zmiennej wholeText przechowywujemy ''''Wymagajcie od bie choćby inni od was nie wymagali.'' ~Jan Paweł II '', a w currentWord ''sie''. W ten sposób podpowiedzi generowane będą jedynie dla cząstki ''sie'', a tekst wpisywany będzie w pozycji kursora, która również monitorowana jest przez zmienną currentPosition. Scalenie wholeText i currenWord następuję, gdy zmieniamy pozycję kursora strzałkami, lub jeśli do tekstu dodana zostanie spacja, a za kursorem nie znajduje się żaden znak przykładowo w takiej sytuacji znajdziemy się na rysunku ~\ref{fig:sentence2}. 
 \begin{figure}[!h]
 		\centering
@@ -227,7 +267,7 @@ W celu dynamicznego ustalania pozycji currentWordStart oraz zawartości currentW
 Działanie drugiej sprowadza się do wycięcia faragmentu tekstu między currentWordStart, zaimplementowanym w wyniku działania poprzedniej funkcji, a currentPosition.
 
 
-\section{Trie tree}
+\section{Trie tree}\label{sec:trietree}
 Jak wyżej ~\ref{sec:trie}  wspomniano, w pracy wykorzystano drzewo typu Trie w celu pracy z rozległym słownikiem. Słowa z pliku w formacie TXT wczytywane są do programu podczas uruchamiania klawiatury- każda z linii dostarczanego pliku powinna stanowić pojedynczy wyraz. Słowa te, za pomocą sztucznie wygenerowanych list kodujących oraz dekodujących polski alfabet, wprowadzane są do drzewa typu Trie. Drzewo takie powstaje poprzez stworzenie pustego węzła typu node - struktury zadeklarowanej w pliku nagłówkowym klasy obsługującej współpracę ze słownikiem – Dictionary. Struktura node przechowuje informacje o rodzicu bieżącego węzła, o jego potomkach – czyli węzłach następujących oraz wektor zawierający informację o przynależności danego węzła literowego do słowa. 
 Po zainicjowaniu węzła zerowego, po kolei, analizowane są słowa ze słownika w funkcji insertWord().Każe jest rozpatrywane jako tablica liter (char) i iteracyjnie następuje najpierw kodowanie litery na odpowiadający jej indeks (za pomocą  mapy alfabet), potem, sprawdzane jest, czy drzewie nie istnieje już węzeł odpowiadający danej wartości. Gdy nie znaleziono gałęzi drzewa pasujących do poszukiwanej wartości tworzy się za pomocą funkcji calloc przestrzeń w pamięci na przyszłe dzieci tego węzła,a jako ich rodzica podaje się aktualnie przeglądany węzeł z literą. Kolejno, niezależnie od wyniku uprzednio rozpatrywanego warunku, o ile słowo wciąż posiada litery do przeglądu, przenosi się o poziom niżej w drzewie ( na poziom dziecka  uprzednio rozpatrywanej litery) i proces zachodzi od początku.  Gdy przetworzono wszystkie litery słowa do listy wystąpień ostatniego odwiedzonego węzła dopisany zostaje indeks słowa w słowniku – tym samym oznaczając jego koniec. W sposób graficzny przedstawiono działanie danej funkcji na rysunku ~\ref{fig:insertWord}
 \begin{figure}[!h]
