@@ -159,7 +159,7 @@ System składa się z warstwy aplikacji oraz warstwy transportowej. Komunikacja 
 
 \subsection{Architektura aplikacji}
 Aplikację zrealizowano w wyżej wymienionym języku C++ z wykorzystaniem wielu bibliotek QT np. QWidget, QString, QtGui,QPainter itd.. Do funkcji auto uzupełniania tekstu posłużono się algorytmem wykorzystującym skompresowane drzewo trie. 
-\subsubsection{Sompresowane Drzewo Trie}
+\subsubsection{Sompresowane Drzewo Trie}  \label{sec:trie}
 Drzewo Trie jest drzewem służącym docelowo do sortowania wartości tesktowego typu danych, w którym każdemu węzłowi przypisany jest  wspólny prefix(fragment klucza). Wartości tekstowe zapisywane są w liściach drzewa. ~\citep{trieTree}
 Do drzewa wczytywane zostają wszystkie słowa z danego mu słownika, a następnie każde rozkłada się na litery i rozmieszcza w drzewie, tak by czytając znaki od korzenia do liścia tworzyły pożądany ciąg. Biorą na przykład słownik składający się z następujących słów: mak, róża, kolec, małż, koc, moher otrzymujemy następujące drzewo ~\ref{fig:trie}.
 \begin{figure}[!h]
