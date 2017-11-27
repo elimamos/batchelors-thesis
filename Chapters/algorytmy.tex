@@ -169,7 +169,7 @@ W tabeli ~\ref{table:specialButtons} wymieniono wszystkie specjalne przyciski z 
     \begin{tabular}{|p{4cm}|p{8.5cm}|}
         \hline
     \textbf{Nazwa przycisku} & \textbf{Działanie}\\ \hline
-     Backspace & Wywołuję metodą backspace() klasy Dictionary WIĘCEJ W OBSŁUGA TESKTU\\ \hline
+     Backspace & Wywołuję metodą backspace() klasy Dictionary, której działanie opisano w podrodziale ~\ref{sec:backspc}.\\ \hline
     CapsLock & W przypadku pierwszego wciśnięcia zmienia stan klawiatury z 0 na 1 i utrzymuje ją dopóki nie zostanie wybrany po raz wtóry lub wykonana zostanie czynność innego przycisku zmieniającego stan klawaiatury. \\ \hline
  Czyść & Korzysta z metody resetAll() klasy Dictionary i powoduje czyszczenie edytora tekstowego oraz z nim związanych zmiennych jak currentPosition, currentWord, currentWordSart, wholeTxt (więcej na ten temat w rodziale ~\ref{sec:text}).\\ \hline
 Menu & Otwiera okno klasy Personalize.\\ \hline
@@ -265,7 +265,9 @@ W celu dynamicznego ustalania pozycji currentWordStart oraz zawartości currentW
 \end{algorithmic}
 \end{algorithm}
 Działanie drugiej sprowadza się do wycięcia faragmentu tekstu między currentWordStart, zaimplementowanym w wyniku działania poprzedniej funkcji, a currentPosition.
-
+\subsection{Usuwanie znaków} \label{sec:backspc}
+Poprzez ułatwiające kontrolę nad tekstem currentWord i wholeText proces usuwania znaków okazał sie trudniejszy niż można było się tego spodziewać. Pierwszym napotkanym problemem była sytuacja, w której currentWord jest puste. W takim wypadku należy usunąć znak znajdujący się w currentPosition ze zmiennej wholeText, a następnie za pomocą wcześniej opisanych funkcji getCurrentWordStart() oraz getCurrentWord() otrzymać informacje o nowej wartości currentWord. Kolejnym krokiem jest wycięcie wartości zmiennej currentWord z wholeText, przesunięcie kursora dla informacji użytkownika w odpowiednią pozycję oraz odświeżenie wyglądu podpowiedzi.
+Gdy currentWord obdarzony jest wartością, sytuacja upraszcza się do usunięcia ostatniego znaku z currentWord. W celu reprezentacji tekstu dla użytkownika należy scalić wholeText z currentWord, ale by nie utracić wartości wholeText stworzono tymczasową zmienną currentText, który zawiera całą treść wpisanego tekstu.
 
 \section{Trie tree}\label{sec:trietree}
 Jak wyżej ~\ref{sec:trie}  wspomniano, w pracy wykorzystano drzewo typu Trie w celu pracy z rozległym słownikiem. Słowa z pliku w formacie TXT wczytywane są do programu podczas uruchamiania klawiatury- każda z linii dostarczanego pliku powinna stanowić pojedynczy wyraz. Słowa te, za pomocą sztucznie wygenerowanych list kodujących oraz dekodujących polski alfabet, wprowadzane są do drzewa typu Trie. Drzewo takie powstaje poprzez stworzenie pustego węzła typu node - struktury zadeklarowanej w pliku nagłówkowym klasy obsługującej współpracę ze słownikiem – Dictionary. Struktura node przechowuje informacje o rodzicu bieżącego węzła, o jego potomkach – czyli węzłach następujących oraz wektor zawierający informację o przynależności danego węzła literowego do słowa. 
@@ -307,7 +309,46 @@ W pierwszym kroku sprawdzane jest, czy w danym węźle kończą się  jakieś s�
 		\end{figure}
 Ostatnim krokiem w stworzeniu podpowiedzi jest skrócenie listy końcówek do liczby przycisków przeznaczonych na podpowiedzi oraz zespolenie ich z dotychczas wpisanym słowem. Taki ciąg znaków można przedstawić użytkowniku jako napis na przycisku, który po wybraniu wpisuje reprezentowany tekst do pola tekstowego zamieniając dotychczasową frazę na wybraną oraz dodając znak spacji na końcu nowowybranego słowa.
 
-\section{Google Api}
+\section{Korzystanie z wyszukiwarki internetowej}
+W celu pracy z przeglądarką niezbędne jest podłączenie drugiego ekranu, na którym otwierać może się okno przeglądarki. W innym wypadku okno klawiatury ulegnie minimalizacji i nie ma możliwości do jej powrotu.
 
+W przypadku skorzystania z jednego z trybów wywysłania (''Google'', ''YouTube'',''Filmweb'') podczas przyciśnięcia przycisku wywoływana jest metoda, GoogleSearcher, search(). W zależności od przesłanej wartości sendingState, informującego o tym, gdzie wysłane ma być zapytanie, do wyszukiwanego tekstu (pobranego z pola tekstowego) dołączana jest informacja, w którym serwisie szukać wyników. Taka informacja załączana jest jako argument uzupełniający URL powstały poprzez stworzenie spersonalizownej wyszukiwarki poprzez skorzytanie z specjalnego Google API. Następnie obiekt klasy QNetworkAccessManager wywołuję metodę RESTową GET na obiekcie klasy QNetworkRequest, który za argument konstruktora przyjmuje powstałe URL z paramatrem.
+
+\subsection{Google Api}
+Jak już wcześniej wspomniano ~\ref{sec:customSearch} do projektu wykorzystano specjalne API Google - Google Custom Search Engine. Dzięki temu powstał specjalny link URL umożliwiający przyjmowanie różnych parametrów jako zapytanie do wyszukiwaraki. Co więcej specjalne API na rządanie GET zwraca iformację w postaci QNetworkReply, gdzie funkcja handleNetworkData() umożliwia jego przetworzenie w ustrukturyzowaną postać JSON. Obiekt JSON zawiera 10 pierwszych wynków wyszukiwania w specjalnej przeglądarce. Każdy z obiektów typu JSON posiada informacje o wyniku wyszukiwania. W skład takiego obiektu wchodzą ~\cite{googleJSON}:
+\begin{itemize}
+\item ''kind'': ''customsearch\#result''
+\item ''title'': string
+\item ''htmlTitle'': string
+\item ''link'': string
+\item ''displayLink'': string
+\item ''snippet'': string
+\item ''htmlSnippet'': string
+\item  ''cacheId'': string
+\item ''mime'': string,
+\item ''fileFormat'': string
+\item ''formattedUrl'': string
+\item ''htmlFormattedUrl'': string
+\item ''pagemap''
+\end{itemize} 
+Wykorzystując dane z ''title'' oraz ''link'' albo przedstawia się użytkownikowi cztery pierwsze wyniki wyszukiwania w polu tekstowym,a ich wywołanie (otworzenie strony) odbywa się przez wybranie przystosowanych przycisków podpowiedzi z numerem wyniku wyszukiwania. Przykład działania przedstawiono na rysunkach ~\ref{fig:googleSearch} oraz ~\ref{fig:searchResult}. 
+
+			\begin{figure}[!h]
+		\centering
+		\scalebox{.7}{
+		\includegraphics[width=1\textwidth]{img/qtSearch.jpg}}
+		\caption{Przykładowy tekst wpisany do pola tekstowego, wysyłany jako argumnet wyszukiwania Google.}
+		\label{fig:googleSearch}
+		\end{figure}
+
+	\begin{figure}
+		\centering
+		\scalebox{.7}{
+		\includegraphics[width=1\textwidth]{img/qtsearchResult.jpg}}
+		\caption{Wyniki wyszukiwana tekstu wpisanego na rysunku ~\ref{fig:googleSearch}.}
+		\label{fig:searchResult}
+		\end{figure}
+		
+W wypadku wyszukiwań w Youtube oraz Filmweb użytkownik nie ma możliwości wyboru  wyniku wyszukiwania - otwierany jest pierwszy wynik, który zawiera odpowiednie słowa kluczowe.
 
 \end{document}
