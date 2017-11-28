@@ -14,9 +14,6 @@
 % pakiety służące do numerowania i tworzenia algorytmów
 \usepackage{algorithmic}
 \usepackage{algorithm}
-\makeatletter
-\renewcommand{\ALG@name}{Algorytm}
-\makeatother
 % redefinicja etykiety nagłówkowej listy algorytmów, domyślna jest po angielsku
 \renewcommand{\listalgorithmname}{Spis algorytmów}
 
@@ -38,7 +35,7 @@
 \pagestyle{fancy}
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
 \renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
-\usepackage[polish]{babel}
+
 
 
 \fancyhf{}
@@ -130,14 +127,53 @@
 \addto\captionspolish{\renewcommand*{\appendixpagename}{Dodatki}}
 \addto\captionspolish{\renewcommand*{\appendixtocname}{Dodatki}}
 \addto\captionspolish{\renewcommand*{\appendixname}{Dodatek}}
-%\addto\captionspolish{\renewcommand{\algorthmcfname}{Algorytm: }}
+
 \setcounter{secnumdepth}{5}
-
+\usepackage{listings}
 \usepackage[toc,page]{appendix}
-
-
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
 \begin{document}
-\section{Zaimplementowane algorytmy}
+\chapter{Implementacja}
+W aplikacji, wykorzystującej wyżej wymienione technologii, stworzono 8 klas w języku C++ wraz z odpowiadającym im plikom nagłówkowym, dodatkowy plik zawierający stałe programowe oraz 2 widoki. 
+\section{Diagram klas}
+Na rysunku ~\ref{fig:classDiag} przedstawiono poglądowy diagram klas wraz z ich zależnościami.  Opis klar oraz zastosowanych algorytmów  zawarto w podrodziałach~\ref{sec:klas} oraz ~\ref{sec:algorytmy}.
+\begin{figure}[!h]
+		\centering
+		\scalebox{1.5}{
+		\includegraphics[width=0.7\textwidth]{img/classDiagram.jpg}}
+		\caption{Poglądowy diagram klas zaimplementowanych w projekcie.}
+		\label{fig:classDiag}
+		
+\end{figure}
+\section{Opis klas zastosowanych}\label{sec:klas}
+
+\section{Zaimplementowane algorytmy}\label{sec:algorytmy}
 W poniższych podrozdziałach zaprezentowano zasadę działania zaimple\-men\-towanych w oprogramowaniu algorytmów. 
 \subsection{Działanie przycisków}
 W aplikacji każdy przycisk jest obiektem klasy ButtonOperator, która dzie\-dzi\-czy po klasie QPushButton. Dzięki czemu obiekty przycisków mogą ko\-rzy\-stać zarówno z metod klasy nadrzędnej np. isCheckable(), jak i klasy dzie\-dzi\-czącej. Właśnie dzięki nadpisaniu metod domyślnych klasy QPushButton  -  ho\-ver\-Enter() i hoverLeave() stworzono możliwość detekcji, nad którym przyciskiem aktualnie znajduje się punkt fiksacji wzroku. Podczas wywołania obu metod zmieniana jest wartość logiczna zmiennej isHovered aktualnie obserwowanego przycisku.  Prócz informacji o tym, czy dany przycisk jest aktualnie używany przechowuje się również dane o tym, czy przycisk zalicza się do tzw. ''spe\-cja\-lnych'', czy też nie, jak i listę dostępnych dla niego tekstów do wy\-świe\-tla\-nia – wyglądów przycisku dla 6 stanów kla\-wia\-tu\-ry (małe litery, duże litery, znaki specjalne karta pierwsza, znaki specjalne karta druga, polskie litery, menu kontekstowe). Wszystkie te dane wprowadza się podczas  uruchamiania kla\-wia\-tu\-ry i wtedy także przypisuje się przyciski kolejno do specjalnej listy. Kolejność jest znacząca w przypadku przycisków ''specjalnych'', gdyż ich obsługa zależna jest od wartości ich ID zapisanego w pliku ze stałymi. 
@@ -351,4 +387,6 @@ Wykorzystując dane z ''title'' oraz ''link'' przedstawiane są użytkownikowi c
 		\end{figure}
 W wypadku wyszukiwań w Youtube oraz Filmweb użytkownik nie ma możliwości wyboru  wyniku wyszukiwania - otwierany jest pierwszy wynik, który zawiera odpowiednie słowa kluczowe.
 
+\section{Opis rozwiązania}
+\section{Zaimplementowany interfejs użytkownika}
 \end{document}
