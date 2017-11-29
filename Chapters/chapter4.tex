@@ -158,11 +158,12 @@
 }
  
 \lstset{style=mystyle}
+
 \begin{document}
 \chapter{Implementacja}
 W aplikacji, wykorzystującej wyżej wymienione technologii, stworzono 8 klas w języku C++ wraz z odpowiadającym im plikom nagłówkowym, dodatkowy plik zawierający stałe programowe oraz 2 widoki. 
 \section{Diagram klas}
-Na rysunku ~\ref{fig:classDiag} przedstawiono poglądowy diagram klas wraz z ich zależnościami.  Opis klar oraz zastosowanych algorytmów  zawarto w podrodziałach~\ref{sec:klas} oraz ~\ref{sec:algorytmy}.
+Na rysunku ~\ref{fig:classDiag} przedstawiono poglądowy diagram klas wraz z ich zależnościami.  Opis klas oraz zastosowanych algorytmów  zawarto w podrodziałach~\ref{sec:klas} oraz ~\ref{sec:algorytmy}.
 \begin{figure}[!h]
 		\centering
 		\scalebox{1.5}{
@@ -172,10 +173,29 @@ Na rysunku ~\ref{fig:classDiag} przedstawiono poglądowy diagram klas wraz z ich
 		
 \end{figure}
 \section{Opis klas zastosowanych}\label{sec:klas}
-
+Klasami użytymi w programie są: ButtonOperator, Dictionary, GoogleSearcher, HoverManager, LayoutLook, MainWindow, PersonalizeView, TimeManager. Dla każdej z nich można określić główną funkcję. Zestawienie to przedstawiono w tabeli~\ref{table:classTab}.
+\begin{table}
+\renewcommand\arraystretch{1.5}
+ \centering
+    \begin{tabular}{|>{\centering\arraybackslash}m{4cm}|m{8.5cm}|}
+     \hline
+    \textbf{Nazwa klasy} & \textbf{Funkcja w programie}\\ \hline
+     ButtonOperator& Klasa dziedzicząca po QPushButton (wewnętrzna klasa biblioteki QT) odpowiedzialna za działanie przycisków w projekcie.\\ \hline 
+     Dictionary & Klasa zajmująca się pracą ze słownikiem, a także zarządzaniem wprowadzonym tekstem. Do kontruktora przyjmuje wskaźnik na pole tekstowe, listę wskaźników na wszystkie działające przyciski oraz listę wskaźników na przyciski odpowiedzialne za podpowiedzi. Klasa posiada również strukturę ''node'', która stanowi podstawowy element budulcowy dla słownika. Więcej na ten temat w podrozdziale ~\ref{sec:trietree}.  \\ \hline
+     GoogleSearcher & Klasa zajmująca się komunikacją programu z internetem, obsługą rządania GET oraz przetworzeniem odpowiedzi. Więcej na ten temat w podrodziale ~\ref{sec:searcher}.\\ \hline
+     HoverManager& Klasa nadzorująca działanie przycisków. Obiekty przechowują informację o: ID przycisku ostatnio fiksowanego, ID ostatnio wybranego specjalnego przycisku, czasie fiksacji nad jednym przyciskiem, czasem działania specjalnego przycisku. Więcej o przyciskach i ich działaniu w podrodziale ~\ref{sec:buttons}.\\ \hline
+     LayoutLook& Klasa przewidziana z myślą o dynamicznej zmianie wyglądu przez użytkownika w oknie menu. Obiekty klasy zebrane w listę w klasie PersonalizeView przechowują komplet danych dotyczących jednego wyglądu. W skład tego wchodzą nazwa wyglądu, wygląd przycisków zapisany przy pomocy kaskadowego arkuszu styli, paletę zmieniającą kolor tła okien, arkusz styli dla paska postępu, podpisów oraz wyglądu przycisków w trybie zablokowanym.\\ \hline
+     MainWindow& Gówna klasa projektu odpowiedzialna za komunikację interfejsu z resztą klas.\\ \hline
+     PersonalizeView & Klasa odpowiedzialna za obsługę wszystkich zdarzeń związanych z okenm menu tzn. zmianą wyglądu aplikacji, zmianą wielkości czcionki, zmianą czasu progowego fiksacji.\\ \hline
+     TimeManager & Rozbudowana klas będąca głównym zarządcą procesów zachodzących w aplikacji dzięki umiejętności pracy z regulatorem czasowym (timer). \\ \hline 
+    
+	\end{tabular}
+	 \caption{Tabela przyporządkowania głownych funkji klasom projektu.} 
+    \label{table:classTab}
+\end{table}
 \section{Zaimplementowane algorytmy}\label{sec:algorytmy}
 W poniższych podrozdziałach zaprezentowano zasadę działania zaimple\-men\-towanych w oprogramowaniu algorytmów. 
-\subsection{Działanie przycisków}
+\subsection{Działanie przycisków} \label{sec:buttons}
 W aplikacji każdy przycisk jest obiektem klasy ButtonOperator, która dzie\-dzi\-czy po klasie QPushButton. Dzięki czemu obiekty przycisków mogą ko\-rzy\-stać zarówno z metod klasy nadrzędnej np. isCheckable(), jak i klasy dzie\-dzi\-czącej. Właśnie dzięki nadpisaniu metod domyślnych klasy QPushButton  -  ho\-ver\-Enter() i hoverLeave() stworzono możliwość detekcji, nad którym przyciskiem aktualnie znajduje się punkt fiksacji wzroku. Podczas wywołania obu metod zmieniana jest wartość logiczna zmiennej isHovered aktualnie obserwowanego przycisku.  Prócz informacji o tym, czy dany przycisk jest aktualnie używany przechowuje się również dane o tym, czy przycisk zalicza się do tzw. ''spe\-cja\-lnych'', czy też nie, jak i listę dostępnych dla niego tekstów do wy\-świe\-tla\-nia – wyglądów przycisku dla 6 stanów kla\-wia\-tu\-ry (małe litery, duże litery, znaki specjalne karta pierwsza, znaki specjalne karta druga, polskie litery, menu kontekstowe). Wszystkie te dane wprowadza się podczas  uruchamiania kla\-wia\-tu\-ry i wtedy także przypisuje się przyciski kolejno do specjalnej listy. Kolejność jest znacząca w przypadku przycisków ''specjalnych'', gdyż ich obsługa zależna jest od wartości ich ID zapisanego w pliku ze stałymi. 
 Określenie przycisku działającego odbywa się poprzez sprawdzenie jego ID, którego zmienna isHovered jest prawdziwa w klasie TimeManager. Do zarządzania stanem kla\-wia\-tu\-ry, o\-sta\-tnio wybranym przyciskiem specjalnym oraz ostatnio obserwowanym przyciskiem powstała klasa HoverManager. Zbiera ona na bieżąco informację o  ID przycisku ostatnio najechanego, o tym przez jaki czas dany przycisk jest już pod punktem fiksacji, o aktualnym stanie kla\-wia\-tu\-ry, o os\-ta\-tnio wybranym spe\-cja\-lnym przycisku (np. CapsLock) oraz przez jaki czas działanie tego przycisku się utrzymuje. Większość z tych danych odświeżana jest co 200ms (stała zde\-fi\-nio\-wa\-na w pliku ze stałymi) podczas każdego wykonywania się metody TimerStep(). Jej działanie przedstawiono za pomocą pseudokodu ~\ref{sec:alg1}.
 \begin{algorithm}
@@ -202,7 +222,9 @@ Określenie przycisku działającego odbywa się poprzez sprawdzenie jego ID, kt
 W tabeli ~\ref{table:specialButtons} wymieniono wszystkie specjalne przyciski z widoku klawiatury oraz opisano po krótce algorytm ich działania. W tabeli ~\ref{table:specialButtonsMenu} przedstawiono przyciski widoku menu oraz ich zachowanie.
 
 \begin{table}
-    \begin{tabular}{|p{4cm}|p{8.5cm}|}
+  \renewcommand\arraystretch{1.2}
+ \centering
+    \begin{tabular}{|>{\centering\arraybackslash}m{4cm}|m{8.5cm}|}
         \hline
     \textbf{Nazwa przycisku} & \textbf{Działanie}\\ \hline
      Backspace & Wywołuję metodą backspace() klasy Dictionary, której działanie opisano w podrozdziale ~\ref{sec:backspc}.\\ \hline
@@ -225,7 +247,9 @@ Przesuń się o jedno słów w prawo lub w lewo & Wywołuje funkcje jumpWord() k
     \label{table:specialButtons}
 \end{table}
 \begin{table}
-    \begin{tabular}{|p{4cm}|p{8.5cm}|}
+   \renewcommand\arraystretch{1.5}
+ \centering
+    \begin{tabular}{|>{\centering\arraybackslash}m{4cm}|m{8.5cm}|}
         \hline
     \textbf{Nazwa przycisku} & \textbf{Działanie}\\ \hline
        Strzałki zmieniające aktualną wartość progową czasu fiksacji & Strzałki powodują zmniejszenie lub zwiększenie wartości zmiennej tickCounter przechowującej ilość 200ms interwałów, po upływie których (w przypadku braku zmiany fiksowanego punktu) przycisk można uznać za wciśnięty. Początkowo czas ten wynosi 3s, jednak w wyniku dynamicznej korekty następuje zmniejszenie lub zwiększenie liczby tych interwałów. Korekta uruchamia się, gdy użytkownik przekroczy dopuszczalną ilość błędów w ciągu minuty. Więcej na temat dynamicznej zmiany czasu w podrozdziale ~\ref{sec:dynamic}. \\ \hline  
@@ -236,21 +260,18 @@ Przesuń się o jedno słów w prawo lub w lewo & Wywołuje funkcje jumpWord() k
     \caption{Lista specjalnych przycisków z menu w raz z ich działaniem.} 
     \label{table:specialButtonsMenu}
 \end{table}
-
-
-
 Jako wciśnięcie rozumie się tu czas fiksacji nad przyciskiem przekracający progową wartość. Stany klawiatury to odpowiednio 0-małe litery, 1-wielkie litery, 2-znaki specjalne strona pierwsza, 3-zanki specjalne strona druga,\\4-polskie znaki, 5-menu kontekstowe dla polskich znaków.
 \subsubsection{Działanie przycisków nomalnych}
 Za wpisywanie znaków z klawiatury do edytora odpowiedzialna jest funkcja \-update() klasy Dictionary. Jest ona głównym zarządcą jeśli chodzi o wprowadzanie znaków w odpowiedniej pozycji. W pierwszej kolejności sprawdzane jest, czy stan klawiatury różny jest od stanu piątego (menu kontekstowe). Gdy spełniony jest dany warunek to porównywana jest aktualnie wprowadzana wartość z u\-prze\-dnio wprowadzoną. Wyjątek stanowi pierwsze wprowadzenie znaku do e\-dy\-to\-ra. W przypadku dwóch identycznych liter czyszczona jest zawartość piątego stanu klawiatury i przechodzi się do wywołania funkcji switchBetweenKeyboards(), która zwraca informację o tym, czy stan kla\-wia\-tu\-ry się zmienił. Tam sprawdzane jest, czy wprowadzony znak jest jedną z liter posiadających polskie odpo\-wie\-dni\-ki tj. \textit{a-ą, c-ć, e-ę, l-ł, n-ń, o-ó, s-ś, z-ż-ź}. Gdy znajdzie się on wśród wymienionej listy, to dla odpowiadającego przycisku ustawiany jest test dla klawiatury stanu piątego i następuje jej wyświetlenie. Działanie takiego zachowania widać na rysunkach 
  ~\ref{fig:startA},~\ref{fig:doubleA}.
-\begin{figure}[!h]
+\begin{figure}
 		\centering
 		\scalebox{.7}{
 		\includegraphics[width=1\textwidth]{img/startA.jpg}}
 		\caption{Widok aplikacji z klawiatura w stanie zerowym po wpisaniu litery 'a'.}
 		\label{fig:startA}
 \end{figure}
-\begin{figure}[!h]
+\begin{figure}
 		\centering
 		\scalebox{.7}{
 		\includegraphics[width=1\textwidth]{img/doubleA.jpg}}
@@ -386,7 +407,80 @@ Wykorzystując dane z ''title'' oraz ''link'' przedstawiane są użytkownikowi c
 		\label{fig:searchResult}
 		\end{figure}
 W wypadku wyszukiwań w Youtube oraz Filmweb użytkownik nie ma możliwości wyboru  wyniku wyszukiwania - otwierany jest pierwszy wynik, który zawiera odpowiednie słowa kluczowe.
-
-\section{Opis rozwiązania}
 \section{Zaimplementowany interfejs użytkownika}
-\end{document}
+Zaimplementowany interfejs użytkownika uległ przemodelowaniu w porównaniu z przedstawionym wcześniej projektem.~\ref{sec:key} Wygląd nowego interfejsu można zaobserwować na rysunkach ~\ref{fig:view1}, ~\ref{fig:view2}, ~\ref{fig:menu}.
+	\begin{figure}
+		\centering
+		\scalebox{.7}{
+		\includegraphics[width=1\textwidth]{img/main.jpg}}
+		\caption{Widok interfejsu, gdy przyciski są w trybie wstrzymania.}
+		\label{fig:view1}
+		\end{figure}
+			\begin{figure}
+		\centering
+		\scalebox{.7}{
+		\includegraphics[width=1\textwidth]{img/stop.jpg}}
+		\caption{Widok interfejsu, gdy przyciski są w trybie aktywnym.}
+		\label{fig:view2}
+		\end{figure}
+\begin{figure}
+		\centering
+		\scalebox{.7}{
+		\includegraphics[width=1\textwidth]{img/menu.jpg}}
+		\caption{Widok okna menu.}
+		\label{fig:menu}
+		\end{figure}
+ Analizując widok klawiatury od górnego lewego rogu, pierwszą zmianą, którą da się zauważyć to zmina napisu ''menu'' na intuicyjną ikonę, która w sposób bardziej spójny pasuje do całościowego wyglądu. Wszystkie ikony projektu pobrane zostały ze strony ~\cite{resource} i udostępniane są na podstawie licencji CC 3.0. Autorami są Smashicons, D. Grandy, C. Fertu oraz G. Cresnar. Kolejną zmiana jest rozmieszczenie przycisków ''home'', ''end'' oraz ''czyść''. Zostały posortowane tematycznie, tak by użytkownikowi było łatwiej je odszukać. W ich miejsce przestawiony został przyciski TextToSpeech (aktualnie nieobsługiwany). W miejsce strzałek służących do poruszania się w kierunach góra-dół po tekście stworzono przyciski, których zadaniem jest przemieszczanie się po tekście o jedno słowo. Podczas testów zauważono, że przy niedługich fragmentach tekstu, do których prawdopodnie najczęściej wykorzystywana będzie klawiatura, są znacząco bardziej wykorzystywane niż strzałki góra-dół. 
+Dużym ułatwieniem dla użytkownika była również zmiana dotychczas niewielkiego, kolistego paska postępu na pasek o szerokości aplikacji. Łatwiej w ten sposób obserwować zmieniajacy się stan bez odrywania wzroku od fiksowanego przycisku. Pasek dodatkowo jest w kolorze kontrastującym. 
+Obok przycisku ''wyślij'', który celowo został zaprojektowany jako największy w klawiaturze (by był łatwny do trafiena i szybki w dostępie podczas konwersacji przez broadcast), pojawiły się przyciski do poruszania się po trybach wyszukiwania oraz przycisk zmieniający swój napis adekwatnie do wybranego trybu. Zmiana wygląda tak jak na rysunku ~\ref{fig:searchType}.
+\begin{figure}
+		\centering
+		\scalebox{.7}{
+		\includegraphics[width=1\textwidth]{img/searchType.jpg}}
+		\caption{Możliwe widoki trybów wyszukiwania.}
+		\label{fig:searchType}
+		\end{figure}
+
+
+ Jak widać na rysunku ~\ref{fig:menu} użytkownikowi  do wyboru przedstawiono 5 wersji kolorystycznych interfejsu ~\ref{fig:basic},~\ref{fig:dark},~\ref{fig:light},~\ref{fig:modern}, ~\ref{fig:wine}. 
+ Kolory dobrano tak, by stanowiły przyjemną do oka, spójną wizję aplikacji, a jednocześnie dawały wystaczający kontrast do  wydajnej pracy. Paletę \textit{Dark} zaprojektowano z myślą o pracy przy słabym oświetleniu, tak by jasne kolory ekranu nie raziły użytkownika w oczy. Paleta \textit{Light} przystosowana jest dla użytkowników o potrzebie mniejszego kontrastu. Zarówno kolor zielony jak i niebieski są uważane wełdug autorów publikacji ~\cite{uiColor} za barwy o charakterze relaksującym użytkownika. Palety \textit{Modern} oraz \textit{Wine} powstały w celu zwiększenia możliwości wyboru użytkownika, gdyż ostateczna ocena wyglądu intefejsu zależy od subiektywnych odczuć osoby korzystającej. Wszystkie wyżej wymienione palety powstawły w oparciu o palety stworzone na stronie ~\cite{uiColorContrast}.
+ 
+ \begin{figure}
+		\centering
+		\scalebox{.7}{
+		\includegraphics[width=1\textwidth]{img/stop.jpg}}
+		\caption{Widok interfejsu w trybie \textit{Basic}.}
+		\label{fig:basic}
+		\end{figure}
+		 \begin{figure}
+		\centering
+		\scalebox{.7}{
+		\includegraphics[width=1\textwidth]{img/dark.jpg}}
+		\caption{Widok interfejsu w trybie \textit{Dark}.}
+		\label{fig:dark}
+		\end{figure}
+		 \begin{figure}
+		\centering
+		\scalebox{.7}{
+		\includegraphics[width=1\textwidth]{img/light.jpg}}
+		\caption{Widok interfejsu w trybie \textit{Light}.}
+		\label{fig:light}
+		\end{figure}
+				 \begin{figure}
+		\centering
+		\scalebox{.7}{
+		\includegraphics[width=1\textwidth]{img/modern.jpg}}
+		\caption{Widok interfejsu w trybie \textit{Modern}.}
+		\label{fig:modern}
+		\end{figure}
+		 \begin{figure}
+		\centering
+		\scalebox{.7}{
+		\includegraphics[width=1\textwidth]{img/wine.jpg}}
+		\caption{Widok interfejsu w trybie \textit{Wine}.}
+		\label{fig:wine}
+		\end{figure}
+\section{Podsumowanie}
+
+ \end{document}
+ 
