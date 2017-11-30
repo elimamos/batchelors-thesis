@@ -11,8 +11,6 @@
 \usepackage{array}
 % pakiet stosowany do url'i w bibliografii, zamienia odnośniki na ładnie sformatowane
 \usepackage{url}
-
-
 % pakiety służące do numerowania i tworzenia algorytmów
 \usepackage{algorithmic}
 \usepackage{algorithm}
@@ -26,7 +24,6 @@
 \usepackage{pgf}
 % pakiet służący do automatycznego sortowania odnośników do bibliografii
 \usepackage[sort]{natbib}
-
 % tworzenie listingów
 \usepackage{listings}
 % tworzenie figur wewnątrz figur
@@ -67,7 +64,7 @@
 % makro umożliwiające otaczanie symboli okręgami
 \usepackage{tikz}
 % brak justowania tekstu (bazą okręgu będzie linia tekstu)
-\newcommand*\mycirc[1]{
+\newcommand*\mycirc[1]{%
   \begin{tikzpicture}
     \node[draw,circle,inner sep=1pt] {#1};
   \end{tikzpicture}}
@@ -120,49 +117,54 @@
 
 \usepackage[section] {placeins}
 
+
 \usepackage{multirow}
 
 \usepackage{slantsc}
-\usepackage[labelsep= space]{caption}
-\usepackage[font=small,labelfont=bf]{caption}
-\usepackage[justification=centering]{caption}
+\usepackage[labelsep=endash]{caption}
 \addto\captionspolish{\renewcommand{\figurename}{Rys.}}
 \addto\captionspolish{\renewcommand{\tablename}{Tab.}}
 \addto\captionspolish{\renewcommand*{\appendixpagename}{Dodatki}}
 \addto\captionspolish{\renewcommand*{\appendixtocname}{Dodatki}}
 \addto\captionspolish{\renewcommand*{\appendixname}{Dodatek}}
 
-
-\usepackage{helvet}
-%\renewcommand{\familydefault}{\sfdefault}
-
-
+\setcounter{secnumdepth}{5}
+\usepackage{listings}
 \usepackage[toc,page]{appendix}
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
 
 \begin{document}
-%\includepdf[pages={1}]{titlePage.pdf}
-\newpage
-\thispagestyle{empty}
-\mbox{}
-%\includepdf[pages={1}]{oswiadczenie.pdf}
-\newpage
-\thispagestyle{empty}
-\mbox{}
-{\renewcommand{\addtocontents}[2]{}
-\chapter*{Streszczenie}}
-\tableofcontents
-\include{Chapters/chapter1}
-\include{Chapters/chapter2}
-\include{Chapters/chapter3}
-\include{Chapters/chapter4}
-\include{Chapters/chapter5}
-\chapter{Podsumowanie}
-
-
-
-
-\bibliographystyle{unsrt}
-\bibliography{bibliografia}
-
+\chapter{Testy i wyniki}
+W poniższym rozdziale przedstawiono opis testów dokonanych w celu weryfikacji oraz walidacji wykonanej aplikacji. Zamieszczono również wyniki oraz wnioski z nich wynikające.
+\section{Testy}
+Do zagadnień testowanych należą wymienione w projektach testów ~\ref{sec:testsP} prędkość korzystania z klawiatury ekranowej, przydatność jej udogodnien oraz sybiektywne odczucia użytkowników. Ten rodzaj testów zalicza się do akceptacyjnych typu UAT. 
+\subsection{Grupa badawcza}
+W skład grupy badawczej wchodziły osoby z przedziału wiekowego 21-60 lat, o różnych płciach, w liczebności . Żadna z osób nie była chorą na stwardnienie boczne rozsiane, czy też w inny sposób upośledzona. 
 
 \end{document}

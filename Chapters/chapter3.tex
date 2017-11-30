@@ -160,42 +160,42 @@
 \lstset{style=mystyle}
 \begin{document}
 
-\chapter{Analiza projektowa}
-Rozdział poświęcony analizie wybranych technologii oraz wymagań projektu. Przedstawiono również wstępną analizę dotyczącą przypadków użycia oraz metod testowania produktu.
+\chapter{Analiza projektowa} ~\label{sec:chap3} 
+Rozdział poświęcony jest analizie wybranych technologii oraz wymagań projektu. Przedstawiono również wstępną analizę dotyczącą przypadków użycia oraz metod testowania produktu.
 \section{Wybrane technologie}
 Krótki opis teoretyczny wybranych technologii - C++ oraz bibliotek QT. 
 \subsection{C++}
 
-C++ jest powszechnie stosowanym językiem programistycznym, będącym potomkiem języka C, w którym wprowadzono szereg udogodnień.W porównaniu z C, C++ zapewnia dokładniejsze sprawdzanie typów danych, wspiera abstrakcje, programowanie obiektowe (z tego względu mówi się o nim jako o języku pseudo-obiektowym), programowanie uogólnione i więcej styli programistycznych. Do wspieranych założeń programowania obiektowego należą polimorfizm, enkapsulacja i dziedziczenie.Nowsza wersja C posiada również bardzo dużą ilość bibliotek, których wykorzystanie znacznie ułatwia jego wykorzystanie.
-W skład klasy tego języka wchodzi plik wykonywalny (.cpp) oraz nagłówkowy (.h). W plikach nagłówkowych klas definiuje się wszystkie metody oraz zmienne. Głównymi powodami do tworzenia oddzielnych plików nagłówkowych są ~\cite{cppH}:
+C++ jest powszechnie stosowanym językiem programowania, będącym potomkiem języka C. Wprowadzono w nim szereg udogodnień.C++, w porównaniu z C, zapewnia dokładniejsze sprawdzanie typów danych, wspiera abstrakcje, programowanie obiektowe (z tego względu mówi się o nim jako o języku pseudo-obiektowym), programowanie uogólnione i proponuje więcej styli programistycznych. Do wspieranych założeń programowania obiektowego należą polimorfizm, enkapsulacja i dziedziczenie. Nowsza wersja C - C++, posiada również bardzo dużą ilość bibliotek, których wykorzystanie znacznie ułatwia jego impletmentację.
+W skład klasy tego języka wchodzi plik wykonywalny (*.cpp) oraz nagłówkowy (*.h). W plikach nagłówkowych klas definiuje się wszystkie metody oraz zmienne. Głównymi powodami do tworzenia oddzielnych plików nagłówkowych są ~\cite{cppH}:
 \begin{itemize}
-\item przyspieszenie czasu kompilacji programu. Pliki nagłówkowe nie wymagają re-kompilacji o ile nie nastąpiła w nich zmiana, co, w przypadku większych projektów, skutkuje w oszczędności czasu między kompilacjami,
+\item przyspieszenie czasu kompilacji programu. Pliki nagłówkowe nie wymagają re-kompilacji, o ile nie nastąpiła w nich zmiana, co skraca czas kompilacji w czasie rozwiania dużych projektów,
 \item organizacja struktury kodu, 
-\item pozawala na rozdzielenie interfejsów od implementacji.
+\item rozdzielenie interfejsów od implementacji.
 \end{itemize}
 Przykładowy plik nagłówkowy klasy ButtonOperator:
 \lstinputlisting[language=C++]{codes/buttonoperator.h}
-Widać jasno wydzielone sekcje modyfikatorów, typy zmiennych oraz metod, jak i ich argumenty. 
+Widać w nim jasno wydzielone sekcje modyfikatorów, typy zmiennych i metod oraz ich argumenty. 
 \subsection{QT}
 
-QT jest zespołem przenośnych bibliotek oraz narzędzi programistycznych stworzonych w C++ do tworzenia aplikacji desktopowych, zagnieżdżonych, jak również mobilnych. Wspiera systemy takie jak: Linux, OS X, Widows, xWorks, QNX, Android, iOS, BlackBerry, Sailfish OS, dzięki czemu jest nadzwyczaj uniwersalnym narzędziem kompatybilnym z następującymi językami programowania: C++, QML (QT Modeling Language), Python, Ring, Go, Rust, PHP i Java.~\cite{qtAbout}~\cite{qtLang}
+QT jest zespołem przenośnych bibliotek oraz narzędzi programistycznych napisanych w C++ do tworzenia aplikacji desktopowych, zagnieżdżonych, a także mobilnych. Wspiera on takie systemy jak: Linux, OS X, Widows, xWorks, QNX, Android, iOS, BlackBerry, Sailfish OS i dzięki czemu jest nadzwyczaj uniwersalnym narzędziem kompatybilnym z następującymi językami programowania: C++, QML (QT Modeling Language), Python, Ring, Go, Rust, PHP i Java.~\cite{qtAbout}~\cite{qtLang}
 QT zapewnia listę dodatkowych możliwości rozszerzających C++. Są to między innymi: \begin{itemize}
-\item mechanizmy pozwalające na komunikację między obiektami zwane sygnałami i otworami (slots)
-\item wyjątkowa możliwość edycji wyglądu i responsywności obiektów 
-\item swobodna możliwość edycji zachowań w przypadku różnego rodzaju zdarzeń 
-\item kontekstowe tłumaczenie stringów do internacjonalizacji
-\item hierarchiczne i responsywne drzewa obiektowe, organizujące strukturę obiektów
-\item automatyczna zmiana wartości wskaźników na 0 w przypadku zniszczenia obiektu, w przeciwieństwie do wskaźników w C++, które stając się zawieszonymi (dangling pointers) 
-~\cite{qtLang}
+\item mechanizmy pozwalające na komunikację między obiektami, zwane sygnałami i otworami (slots);
+\item wyjątkowa możliwość edycji wyglądu i responsywności obiektów ;
+\item swobodna możliwość edycji zachowań w przypadku różnego rodzaju zdarzeń ;
+\item kontekstowe tłumaczenie stringów do internacjonalizacji;
+\item hierarchiczne i responsywne drzewa obiektowe, organizujące strukturę obiektów;
+\item automatyczna zmiana wartości wskaźników na 0 w przypadku zniszczenia obiektu, w przeciwieństwie do wskaźników w C++, które stając się za\-wie\-szo\-ny\-mi (dangling pointers) 
+~\cite{qtLang};
 \end{itemize}
 
 \section{Architektura systemu}
 System składa się z warstwy aplikacji oraz warstwy transportowej. Komunikacja zrealizowana jest za pomocą broadcastu przy pomocy protokołu UDP (user data protocol). 
 
 \subsection{Architektura aplikacji}
-Aplikację zrealizowano w wyżej wymienionym języku C++ z wykorzystaniem wielu bibliotek QT np. QWidget, QString itd.. Do funkcji auto uzupełniania tekstu posłużono się algorytmem wykorzystującym skompresowane drzewo trie. 
-\subsubsection{Sompresowane Drzewo Trie}  \label{sec:trie}
-Drzewo Trie jest drzewem służącym docelowo do sortowania wartości tesktowego typu danych, w którym każdemu węzłowi przypisany jest  wspólny prefix(fragment klucza). Wartości tekstowe zapisywane są w liściach drzewa. ~\citep{trieTree}
+Aplikację zrealizowano w wyżej wymienionym języku C++ z wykorzystaniem wielu bibliotek QT np. QWidget, QString itd.. Do funkcji autouzupełniania tekstu posłużono się algorytmem wykorzystującym skompresowane drzewo trie. 
+\subsubsection{Zkompresowane Drzewo Trie}  \label{sec:trie}
+Drzewo Trie jest drzewem służącym docelowo do sortowania wartości danych tesktowych, w którym każdemu węzłowi przypisany jest  wspólny prefix(fragment klucza). Wartości tekstowe zapisywane są w liściach drzewa. ~\citep{trieTree}
 Do drzewa wczytywane zostają wszystkie słowa z danego mu słownika, a następnie każde rozkłada się na litery i rozmieszcza w drzewie, tak by czytając znaki od korzenia do liścia tworzyły pożądany ciąg. Biorą na przykład słownik składający się z następujących słów: mak, róża, kolec, małż, koc, moher otrzymujemy następujące drzewo ~\ref{fig:trie}.
 \begin{figure}[!h]
 		\centering
@@ -205,40 +205,40 @@ Do drzewa wczytywane zostają wszystkie słowa z danego mu słownika, a następn
 		\label{fig:trie}
 \end{figure}
 W ten sposób poszukując słów zaczynających się na ''ko'' w bardzo prosty sposób możemy określić, że zaliczają się do nich koc oraz kolec. 
-Drzewo to w znaczący sposób skraca czas przeszukiwania dużych słowników (w wypadku tego projektu 3639970 wyrazów) i umożliwia np. auto uzupełnianie albo korektę słów bieżąco wpisywanych przez użytkownika.
+Drzewo to w znaczący sposób skraca czas przeszukiwania dużych słowników (w wypadku tego projektu 3639970 wyrazów) i umożliwia np. autouzupełnianie albo korektę słów bieżąco wpisywanych przez użytkownika.
 
-Zastosowany algorytm wykorzystuje fakt występowania wspólnych węzłów i zapamiętuje jedynie numer ostatniego węzła związanego z wyszukiwanym słowem np. dla frazy ''ko
-'' - węzeł nr. 2, a następnie pobiera wartości wszystkich dzieci tego węzła, zespala je i tworzy wszystkie możliwe końcówki (tu ''c'' oraz ''lec''), które w połączeniu z szukaną frazą dają "auto uzupełniane" słowa.
+Zastosowany algorytm wykorzystuje fakt występowania wspólnych węzłów i zapamiętuje jedynie numer ostatniego węzła związanego z wyszukiwanym słowem np. dla frazy ''ko'' - węzeł nr. 2, a następnie pobiera wartości wszystkich dzieci tego węzła, zespala je i tworzy wszystkie możliwe końcówki (tu ''c'' oraz ''lec''), które w połączeniu z szukaną frazą dają ''autouzupełniane'' słowa.
 \subsection{Komunikacja aplikacji}
-System umożliwia komunikację poprzez broadcast z innymi użytkownikami jak i poprzez specjalne API Google z przeglądarką internetową. 
-
-Broadcast jest metodą komunikacji (rozsyłania danych) między jednym nadawcą, a wieloma odbiorcami w tym samym czasie. Jest to dyfuzyjny, jednokierunkowy tryb  transmisji charakterystyczny dla sieci LAN. Protokołem regulującym dany ruch sieciowy jest w tym wypadku UDP (User Datagram Protocol). Jest to bezpołączeniowy protokół, który pozwala aplikacjom dobudować własne - niezbędne do poprawnego działania, protokoły. 
+System umożliwia komunikację poprzez broadcast z innymi użytkownikami oraz poprzez specjalne API Google z przeglądarką internetową. 
+\subsubsection{Broadcast}
+Broadcast jest metodą komunikacji (rozsyłania danych) między jednym nadawcą, a wieloma odbiorcami w tym samym czasie. Jest to dyfuzyjny, jednokierunkowy tryb  transmisji, charakterystyczny dla sieci LAN. Protokołem regulującym dany ruch sieciowy jest w tym wypadku UDP (User Datagram Protocol). Jest to bezpołączeniowy protokół, który pozwala aplikacjom dobudować własne - niezbędne do poprawnego działania, protokoły. 
 Zapewnia on aplikacji możliwość wysyłania enkapsulowanych datagramów IP bez potrzeby wytworzenia połączenia, co jest jednocześnie dużo szybszą metodą komunikacji, niż tryb synchroniczny. Nie dba on o to, czy wysłane ramki dotrą do odbiorcy w całości, co jest typowe dla komunikacji asynchronicznej.
 UDP transmituje segmenty złożone z 8-bajtowego nagłówka oraz fragment przesyłanych danych, będący formą wiadomości. 
 UDP zapewnia informację o portach źródłowych i docelowych. 
 Port źródłowy jest przydatny w momencie, gdy urządzenie odbiorcy zechce odesłać odpowiedź na otrzymany segment.
 Rozmiar ramki wynosi od 8-65 515 bajtów. ~\cite{UDP}
+\subsubsection{Google Custom Search}
 \label{sec:customSearch}
-Google Custom Search umożliwia stworzenie własnej wyszukiwarki umożliwiającej na przeszukiwanie zarówno stron internetowych jak i obrazów. Możliwe jest zawężenie i personalizacja wyników wyszukiwania np. do wyników pochodzących z konkretnej strony, lub zawierających sprecyzowaną frazę.  Google Seachr Engine występuje w dwóch wersjach - Custom Search Engine, która jest darmowa oraz Google Site Search, które jest werjsą płatną. Do potrzeb projektowych wystraczająca jest wersja darmowa, która umożliwia korzytsanie z dodatkowych API umożliwiających zwrócenie wyników wyszukiwania w postaci pliku XML czy też JSON. API te upraszaczją komunikację aplikacji z przeglądarką do zapytań RESTowych typu get w celu otrzymania uporządkowanej struktury danych. ~\cite{googleAPI}
+Google Custom Search umożliwia stworzenie własnej wyszukiwarki pozwalającej na przeszukiwanie zarówno stron internetowych jak i obrazów. Możliwe jest zawężenie i personalizacja wyników wyszukiwania np. do wyników pochodzących z konkretnej strony, lub zawierających sprecyzowaną frazę.  Google Seachr Engine występuje w dwóch wersjach: darmowej - Custom Search Engine oraz płatnej - Google Site Search. Do potrzeb projektowych wystraczająca jest wersja darmowa, która pozwala na korzystanie z dodatkowych API umożliwiających zwrócenie wyników wyszukiwania w postaci pliku XML czy też JSON. API te upraszczają komunikację aplikacji z przeglądarką do zapytań RESTowych typu get w celu otrzymania uporządkowanej struktury danych. ~\cite{googleAPI}
 
 
  
 \section{Wymagania funkcjonalne}
 Po przeanalizowaniu problemu klawiatury ekranowej oraz potrzeb osób chorych na ALS stwierdzono następujące wymanagania funkcjonalne:
 \begin{itemize}
-\item Klawiatura ekranowa reagująca na sygnał wejściowy będący współrzędnymi punktu fiksacji, które określane są z dokładnością jednego stopnia. Zakładając, że odległość użytkownika od ekranu to 60cm, wyliczono iż dokładność wyznaczania pozycji to obszar ok. 3,2 cm powierzchnii ekranowej. Dla komputera o ekranie 14 cal (monitor testowy), gdzie rozmiar pojedzyńczego piksela to ok. 0,2269 mm - to, w przybliżeniu, 141px dla każdego przycisku. 
-\item Możliwość auto uzupełniania słów za pomocą słownika języka polskiego.
+\item Klawiatura ekranowa reagująca na sygnał wejściowy będący współrzędnymi punktu fiksacji, które określane są z dokładnością jednego stopnia. Zakładając, że odległość użytkownika od ekranu to 60 cm, wyliczono iż dokładność wyznaczania pozycji to obszar ok. 3,2 cm powierzchnii ekranowej. Dla komputera o ekranie 14 cal (monitor testowy), gdzie rozmiar pojedynczego piksela to ok. 0,2269 mm - to, w przybliżeniu, 141px dla każdego przycisku. 
+\item Możliwość autouzupełniania słów za pomocą słownika języka polskiego.
 \item Możliwość wprowadzenia przycisków w stan nieaktywny. 
-\item Wykorzytstywanie polskich znaków w tekście. 
+\item Wykorzystywanie polskich znaków w tekście. 
 \item Wysyłanie wiadomości za pomocą broadcastu. 
 \item Wyszukiwanie stron w przeglądarce Google.
-\item Możliwość konfugurowania wyglądu aplikacji - różne stopnie kontrastu oraz kolorystyki, a także rozmiaru czcionki tekstu wpisywanego. 
+\item Możliwość konfigurowania wyglądu aplikacji - różne stopnie kontrastu oraz kolorystyki, a także rozmiaru czcionki tekstu wpisywanego. 
 \end{itemize}
 Szczegółowe przypadki użycia klawiatry zobrazowano w rozdziale "Przypadki użycia"~\ref{sec:uml}.
 
 \section{Przypadki użycia}
   \label{sec:uml}
-  Na zamieszczonym rysunku ~\ref{fig:useCase} przedstawiono diagram przypadków użycia przedstawiający możliwe interakcje użytkownika z aplikacją. 
+  Na zamieszczonym rysunku~\ref{fig:useCase} przedstawiono diagram przypadków użycia przedstawiający możliwe interakcje użytkownika z aplikacją. 
 \begin{figure}[!h]
 		\centering
 		\includegraphics[scale=0.4]{img/useCase.jpg}
@@ -246,18 +246,17 @@ Szczegółowe przypadki użycia klawiatry zobrazowano w rozdziale "Przypadki uż
 		\label{fig:useCase}
 \end{figure}
 
-Aby rozpocząć pracę z klawiaturą należy odblokować pisanie znaków wybirając przycisk ''start''.
-Gówną funkcjonalnością, a zarazem najczęściej zachodzącym przypadkiem użycia będzie wybór przycisku z literą w celu wypisania tekstu na ekranie. Użytkownik ma do wyboru klawiaturę podstawową z 28 znakami oraz cyframi z zakresu 0-9 oraz 2 tablice przycisków ze znakami specjalnymi oraz jedną poświęconą jedynie polskim znakom. Każdy z przycisków reaguje na zmianę położenia punktu fiksacji - w momencie, w którym wykryte zostanie położenie nad przyciskiem naliczany zostaje czas, którego narastanie wizualizuję się za pomocą pasku postępu. Gdy 100\% postępu zostanie osiągnięte dana litera pojawia się na ekranie w przeznaczonym obszarze i w określonej, za pomocą kursora, pozycji w tekście. W przypadku jeśli użytkownik zechce zmienić wielkość liter może wybrać między opcją CapsLock (stałym powiększeniem liter wpisywanych), bądź Shift (zwiększającym kolejną literę dodaną do tekstu, następnie zmieniając wielkość liter na małe). W obu wypadkach następuję zmiana wyglądu całej klawiatury. 
-Po tekście można poruszać się za pomocą strzałek - ruch w prawo (do początku tekstu) i lewo (na koniec tekstu) o jeden znak, lub specjalnych przycisków ''home'' oraz ''end'', które przenoszą kursor odpowiednio na początek i koniec tekstu. Przyciski Enter oraz Spacja traktowane jako zwykłe znaki. Fiksacja na przycisku Backspace usuwa ostatni wpisany znak, a   na przycisku ''czyść'' usunięcie wszystkiego co znajduje się w polu tekstowym. Wyróżnia się też innego rodzaju przyciski specjalne, zmieniające wygląd klawiatury - są to przyciski do znaków specjalnych oraz polskich liter. Pierwszy z wymienionych w pierwszym kroku prezentuje wszystkie znaki specjalne powszechnego użytku np. wykrzyknik, cudzysłów, średnik, a przy powtórnym wciśnięciu na klawiaturze pojawiają się popularne emotikony, które znalazły tam swoje miejsce, ze względu na możliwość wysyłania wiadomośći do innych użytkowników i mają za zadanie ułatwienie reprezentacji emocjonalego przekazu wiadomości. W przypadku gdy użytkownik wpisał już jakiś fragment tekstu możę posłużyć się przyciskiem podpowiedzi, które działają na zasadzie auto uzupełniania tekstu na podstawie słów znalezionych w słowniku. Aby zmienić wygląd aplikacji lub tryb wysyłania należy skorzytać z przycisku menu. To pozwoli na wybranie schematu kolorstycznego aplikacji oraz na dobór wilekości czcionki. Użytkownik może wybrać również jeden z trzech trybów rozsyłania zapisanego przez niego tekstu - są to: Google Search, Filmweb oraz Broadcast (w celu czatu). Za ostatni tryb wysyłania odpowiedzialny jest przycisk ''wyślij'', natomiast inne wymienione można wybrać za pomocą specjalnych strzałek oraz wykonać za pomocą przycisku o tej samej nazwie co wybrany tryb.
+Aby rozpocząć pracę z klawiaturą należy odblokować pisanie znaków wy\-bie\-ra\-jąc przycisk \textit{start}. Gówną funkcjonalnością, a zarazem najczęściej zachodzącym przypadkiem użycia będzie wybór przycisku z literą w celu wypisania tekstu na ekranie. Użytkownik ma do wyboru klawiaturę podstawową (z 28 znakami oraz cyframi z zakresu 0-9), 2 tablice przycisków ze znakami specjalnymi oraz jedną poświęconą jedynie polskim znakom. Każdy z przycisków reaguje na zmianę położenia punktu fiksacji - w momencie, w którym wykryte zostanie położenie nad przyciskiem naliczany zostaje czas, którego narastanie wizualizuje się za pomocą paska postępu. Gdy 100\% postępu zostanie osiągnięte dana litera pojawia się na ekranie w przeznaczonym obszarze i w określonej, za pomocą kursora, pozycji w tekście. W przypadku, jeśli użytkownik zechce zmienić wielkość liter może wybrać między opcją \textit{CapsLock} (stałym powiększeniem liter wpisywanych), bądź \textit{Shift} (zwiększającym kolejną literę dodaną do tekstu, następnie zmieniając wielkość liter na małe). W obu wypadkach następuję zmiana wyglądu całej klawiatury. 
+Po tekście można poruszać się za pomocą strzałek - ruch w lewo (do początku tekstu) i prawo (na koniec tekstu) o jeden znak, lub specjalnych przycisków \textit{home} oraz \textit{end}, które przenoszą kursor odpowiednio na początek i koniec tekstu. Przyciski \textit{Enter} oraz \textit{Spacja} traktowane są jako zwykłe znaki. Fiksacja na przycisku Backspace usuwa ostatni wpisany znak, a na przycisku \textit{czyść} wszystko co znajduje się w polu tekstowym. Wyróżnia się też innego rodzaju przyciski specjalne, zmieniające wygląd klawiatury. Są to przyciski do znaków specjalnych oraz polskich liter. Pierwszy z wymienionych w pierwszym kroku prezentuje wszystkie znaki specjalne powszechnego użytku np. wykrzyknik, cudzysłów, średnik, a przy powtórnym wciśnięciu na klawiaturze pojawiają się popularne emotikony, które znalazły tam swoje miejsce, ze względu na możliwość wysyłania wiadomości do innych użytkowników i mają za zadanie ułatwienie reprezentacji emocjonalego przekazu wiadomości. W przypadku, gdy użytkownik wpisał już jakiś fragment tekstu może posłużyć się jednym z przycisków podpowiedzi, które działają na zasadzie autouzupełniania tekstu na podstawie słów znalezionych w słowniku. Aby zmienić wygląd aplikacji lub tryb wysyłania należy skorzytać z przycisku \textit{menu}. To pozwoli na wybranie schematu kolorystycznego aplikacji oraz wilekości czcionki. Użytkownik może wybrać również jeden z trzech trybów rozsyłania zapisanego przez siebie tekstu - są to: \textit{Google Search}, \textit{Filmweb} oraz \textit{Broadcast} (w celu czatu).
 \section{Propozycja rozwiązania}
-Jedną z możliwych propozycji rozwiązania, którą postanowiono zrealizować jest oprogramowanie komputerowe, które wyglądem przypominać powinno klawiaturę ekranową, czułą na pozycję kursora, z wbudowanym edytorem tekstu. Klawiatura ta powinna realizować rządanie użytkownika w zakresie wyżej wspomnianych wymagań funkcjonalnych tj. pisanie tekstu, wyszukiwanie treści w internecie oraz komunikacją z innymi użytkownikami poprzez broadcast. Co więcej, interfejs użytkownika powinien pozwolić na dostosowanie wyglądu w celu dopasowania do indywidualnych potrzeb. W wynniku pierwszej analizy powstał przedstawiony w podrodziale ~\ref{sec:key} prototy oprogramowania. 
+Jedną z możliwych propozycji rozwiązania, którą postanowiono zrealizować jest oprogramowanie komputerowe, które wyglądem przypominać powinno klawiaturę ekranową, czułą na pozycję kursora, z wbudowanym edytorem tekstu. Klawiatura ta powinna realizować żądanie użytkownika w zakresie wyżej wspomnianych wymagań funkcjonalnych tj. pisanie tekstu, wyszukiwanie treści w internecie oraz komunikacją z innymi użytkownikami poprzez broadcast. Co więcej, interfejs użytkownika powinien pozwolić na dostosowanie wyglądu do indywidualnych potrzeb. W wynniku pierwszej analizy powstał przedstawiony w podrodziale ~\ref{sec:key} prototyp oprogramowania. 
 \subsection{Prototyp interfejsu oprogramownia}\label{sec:key}
-Tworząc prototy oprogramowania zwrócono szczególna uwagę na funkcjonalność interfejsu. Aplikacja otwiera się w trybie pełnoekranowym, tak by otrzymać maksymalny dostępny rozmiar elementów zawartych w interfejsie. Zamieszczono w nim opisane w przypadkach użycia przyciski, niezbędne do poprawnego działania programu. Użytkownik o pozostałym czasie do wyboru przycisku informowany jest poprzez zmieniający się pasek postępu. 
+Tworząc prototy oprogramowania zwrócono szczególna uwagę na funkcjonalność interfejsu. Aplikacja otwiera się w trybie pełnoekranowym, tak by otrzymać maksymalny dostępny rozmiar elementów zawartych w interfejsie. Za\-mie\-szczo\-no w nim opisane powyżej przyciski niezbędne do poprawnego działania programu. Użytkownik informowany jest o pozostałym czasie do wyboru przycisku poprzez zmieniający się pasek postępu. 
 
-Kolorystyka aplikacji została dobrana w celu stworzenia spokojnego i nie męczącego dla oczu wyglądu aplikacji, ze względu na długi czas korzystania poprzez osoby chore na stwardnienie boczne rozsiane. Połączenie kolorów białego i niebieskiego daje wystaczający kontrast dla ludzkiego oka by przy niewielkim wysiłku odczytać zapisany tekst. Nie można było zastosować interfejsów czarno-białych o najwyższym poziomie kontrastu ze wględu na to, iż obłe kształty przycisków wraz z wymienioną kolorystyką powodowały powstawanie złudzenie optyczne, które uniemożliwiały pracę na klawiaturze. 
+Kolorystyka aplikacji została dobrana tak, by chory na stwardnienie boczne rozsiane mógl korzystać z niej nie męcząc oczu podczas długiego korzystania. Połączenie kolorów bia\-łe\-go i niebieskiego daje wystaczający kontrast dla ludzkiego oka, by przy niewielkim wysiłku odczytać zapisany tekst. Nie można było zastosować interfejsów czarno-białych o najwyższym poziomie kontrastu ze wględu na to, iż obłe kształty przycisków w tych kolorach powodowały powstawanie złudzenia optycznego, które uniemożliwiało pracę na klawiaturze. 
 
-Pierwszym widokiem prezentowanym użytkownikowi jest widok z zablokowaną klawiaturą przedstawiony na rysunku ~\ref{fig:inactive}.  Zadbana o to, by przyciski w trybie ''wstrzymania'' przedstawione były w innym kolorze od przycisków aktywnych. Po użyciu przycisku ''START'' klawiatura zmienia swój wygląd na jednolity, taki jak na rysunku ~\ref{fig:active}.
-Dalesze dwie grafiki ~\ref{fig:auto} oraz ~\ref{fig:textAuto} prezentują wpisywanie tekstu oraz wyświetlanie się możliwych opcji auto uzupełnienia tekstu wpisywanego. 
+Pierwszym widokiem prezentowanym użytkownikowi jest widok z zablokowaną klawiaturą przedstawiony na rysunku ~\ref{fig:inactive}.  Zadbano o to, by przyciski w trybie ''wstrzymania'' przedstawione były w innym kolorze od przycisków aktywnych. Po użyciu przycisku \textit{START} klawiatura zmienia swój wygląd na jednolity, taki jak na rysunku ~\ref{fig:active}.
+Dalesze dwie grafiki ~\ref{fig:auto} oraz ~\ref{fig:textAuto} prezentują wpisywanie tekstu oraz wyświetlanie się możliwych opcji autouzupełnienia tekstu wpisywanego. 
 \begin{figure}[h]
 		\centering
 		\scalebox{.9}{
@@ -286,8 +285,8 @@ Dalesze dwie grafiki ~\ref{fig:auto} oraz ~\ref{fig:textAuto} prezentują wpisyw
 		\caption{Tekst i podpowiedzi po wybraniu sugerowanego tekstu. }
 		\label{fig:textAuto}
 \end{figure}
-\section{Projekt testów}
-Podczas testowania aplikacji szczególą uwagę należy zwórcić na czas, jaki zajmuje użytkownikowi wprowadzenie tekstu do edytora za pomocą klawiatury ekranowej, przydatność udogodnień typu auto uzupełnianie słów oraz subiektywne odczucia osób badanych. W związku z tym zaplanowano następujący przebieg testów:
+\section{Projekt testów} \label{sec:testsP}
+Podczas testowania aplikacji szczególą uwagę należy zwórcić na czas, jaki zaj\-mu\-je użytkownikowi wprowadzenie tekstu do edytora za pomocą klawiatury ekranowej, przydatność udogodnień typu autouzupełnianie słów oraz subiektywne odczucia osób badanych. W związku z tym zaplanowano następujący przebieg testów:
 \begin{enumerate}
 \item Pomiar czasu wprowadzania tekstu numer 1 do edytora tekstu za pomocą klawiatury komputerowej. 
 \item Pomiar czasu wprowadzania tekstu numer 2 do edytora tekstu za pomocą klawiatury ekranowej. 
@@ -298,19 +297,19 @@ Podczas testowania aplikacji szczególą uwagę należy zwórcić na czas, jaki 
 W celu popranego przebiegu testów należy przyjąć pewne założenia:
 \begin{itemize}
 \item osoby testowane nie będą miały możliwości wcześniejszego zapoznania się z treścią wpisywanych tekstów, ani nie będą znały tematu ostatniego z punktów testu,    
-\item osoby testowane będa na komputerze nie należącym do nich, w celu postawienia ich przed wyzwaniem inngo ułożenia klawiszy komputerowych, niż na własnym sprzęcie, 
-\item testujący do wprowadzania danych na klawiaturze ekranowej wykorzystywac będą myszy komputerowej (odrzucamy czynnik braku umiejętności pracy z nowym sprzętem),
+\item osoby testowane piszą obcym sobie komputerze, by nie znały układu klawiszy komputerowych, 
+\item testujący do wprowadzania danych na klawiaturze ekranowej wykorzystywać będą myszy komputerowej (odrzucamy czynnik braku umiejętności pracy z nowym sprzętem),
 \item każda z osób testowanych, przejdzie krótkie szkolenie z zakresu działania klawiatury ekranowej,
-\item w czasie pomiaru czasu zapisywane będzie również ilość razy wykorzystania podpowiedzi tekstu w celu określenia ich skuteczności,
-\item pod koniec testów z każdym z badanych przeprowadzona będzie  rozmowa na temat jej subiektywnych wrażeń podczas pracy z klawiaturą.
+\item w czasie pomiaru czasu zapisywana będzie również ilość wykorzystywanych podpowiedzi tekstu w celu określenia ich skuteczności,
+\item pod koniec testów z każdym z badanych przeprowadzona będzie rozmowa na temat jego subiektywnych wrażeń podczas pracy z klawiaturą.
 \end{itemize}
 
-\subsection{Możliwość dalszego rozwoju}
-Przewidziano możliość dalszego rozwoju aplikacji wprowadzając do prototypu przyciski, których działania nie obsłużono. Są nimi Ctrl, Alt oraz Tekst to Speach. Dwa pierwsze przewidziane zostały w celu współpracy z programami zewnętrznymi oraz wprowadzenia  skrótów klawiszowych (np. Ctrl+A, Ctrl+V, Ctrl+C, Ctrl+X). Należy pamiętać, że użytkownikami klawiatury są często osoby starsze, które przed zachorowaniem miały już styczność z pracą z komputerem. Wprowadzenie znanych im skrótów, czy funkcjonalności może usprawnić ich pracę z komputerem. Bardzo ważnym aspektem oferowanym przez innych producentów oprogramowania dla osób spraliżowanych, bez możliwości komunikacji werbalnej jest TextToSpeech, czyli synteza mowy na postawie tekstu. Tak zsytetyzowana świeżka dźwiękowa z wprowadzoną wypowiedzią mogłaby zostać odtworzona poprzez głośniki urządzenia i umożliwić werbalną komunikację z innymi osobami.
+\section{Możliwość dalszego rozwoju}
+Przewidziano możliość dalszego rozwoju aplikacji wprowadzając do prototypu przyciski, których działania nie obsłużono. Są nimi \textit{Ctrl}, \textit{Alt} oraz \textit{Tekst to Speech}. Dwa pierwsze przewidziane zostały w celu współpracy z programami zewnętrznymi oraz wprowadzenia  skrótów klawiszowych (np. Ctrl+A, Ctrl+V, Ctrl+C, Ctrl+X). Należy pamiętać, że użytkownikami klawiatury są często osoby starsze, które przed zachorowaniem miały już styczność z pracą na komputerze. Wprowadzenie znanych im skrótów, czy funkcjonalności może usprawnić ich pracę z komputerem. Bardzo ważnym aspektem oferowanym przez innych producentów oprogramowania dla osób spraliżowanych, bez możliwości komunikacji werbalnej jest TextToSpeech, czyli synteza mowy na postawie tekstu. Tak zsyntetyzowana ścieżka dźwiękowa z wprowadzoną wypowiedzią mogłaby zostać odtworzona poprzez głośniki urządzenia i umożliwić werbalną komunikację z innymi osobami.
 \section{Wymagania pozafunkcjonalne}
 Podstawowymi wymaganiami pozafunkcjonalnymi są:
 \begin{itemize}
-\item komputer lub urządzenie mobilne z systemem operacyjnym linux, bądź windows,
+\item komputer lub urządzenie mobilne z systemem operacyjnym Linux, bądź Windows,
 \item mysz komputerowa lub specjalne okluary do eye-trackingu,
 \item dwa monitory do pracy z internetem, 
 \item 4GB pamięci RAM, 
@@ -320,8 +319,8 @@ Podstawowymi wymaganiami pozafunkcjonalnymi są:
 
 
 \subsection{Ograniczenia}
-Ze względu na ograniczoną powierzchnię ekranową niestety nie udało się zrealizować przycisków o minimalnych wymiarach 140px x 140px. 
+Ze względu na ograniczoną powierzchnię ekranową nie udało się zrealizować przycisków o minimalnych wymiarach 140px x 140px. 
 
 \section{Podsumowanie}
-Rozdział ten stanowi analizę techniczną zaplanowanego oprogramowania. Tłumaczy jego działanie oraz przewidziane technologie. Przedstawiono przewidywane wymagania funkcjonalne oraz wynikające z analizy sprzętowej wymagania pozafunkcjonalne. Dokładnie omówiono przypadki użycia aplikacji oraz oferowane funkcjonalności. Poświęcono także podrodział, by omówić ewentualne możliwości rozwoju aplikacji w celu jej udoskonalenia, które nie są celem tego projektu.
+Rozdział ten stanowi analizę techniczną zaplanowanego oprogramowania. Tłumaczy jego działanie oraz opisuje przewidziane technologie. Przedstawiono przewidywane wymagania funkcjonalne oraz wynikające z analizy sprzętowej wymagania pozafunkcjonalne. Dokładnie omówiono przypadki użycia aplikacji oraz oferowane funkcjonalności. Poświęcono także podrodział, by omówić ewentualne możliwości rozwoju aplikacji w celu jej udoskonalenia, które nie są celem tego projektu.
 \end{document}
