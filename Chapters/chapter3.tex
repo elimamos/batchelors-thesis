@@ -223,7 +223,7 @@ Google Custom Search umożliwia stworzenie własnej wyszukiwarki pozwalającej n
 
 
  
-\section{Wymagania funkcjonalne}
+\section{Wymagania funkcjonalne} \label{sec:cele}
 Po przeanalizowaniu problemu klawiatury ekranowej oraz potrzeb osób chorych na ALS stwierdzono następujące wymanagania funkcjonalne:
 \begin{itemize}
 \item Klawiatura ekranowa reagująca na sygnał wejściowy będący współrzędnymi punktu fiksacji, które określane są z dokładnością jednego stopnia. Zakładając, że odległość użytkownika od ekranu to 60 cm, wyliczono iż dokładność wyznaczania pozycji to obszar ok. 3,2 cm powierzchnii ekranowej. Dla komputera o ekranie 14 cal (monitor testowy), gdzie rozmiar pojedynczego piksela to ok. 0,2269 mm - to, w przybliżeniu, 141px dla każdego przycisku. 
@@ -253,7 +253,7 @@ Jedną z możliwych propozycji rozwiązania, którą postanowiono zrealizować j
 \subsection{Prototyp interfejsu oprogramownia}\label{sec:key}
 Tworząc prototy oprogramowania zwrócono szczególna uwagę na funkcjonalność interfejsu. Aplikacja otwiera się w trybie pełnoekranowym, tak by otrzymać maksymalny dostępny rozmiar elementów zawartych w interfejsie. Za\-mie\-szczo\-no w nim opisane powyżej przyciski niezbędne do poprawnego działania programu. Użytkownik informowany jest o pozostałym czasie do wyboru przycisku poprzez zmieniający się pasek postępu. 
 
-Kolorystyka aplikacji została dobrana tak, by chory na stwardnienie boczne rozsiane mógl korzystać z niej nie męcząc oczu podczas długiego korzystania. Połączenie kolorów bia\-łe\-go i niebieskiego daje wystaczający kontrast dla ludzkiego oka, by przy niewielkim wysiłku odczytać zapisany tekst. Nie można było zastosować interfejsów czarno-białych o najwyższym poziomie kontrastu ze wględu na to, iż obłe kształty przycisków w tych kolorach powodowały powstawanie złudzenia optycznego, które uniemożliwiało pracę na klawiaturze. 
+Kolorystyka aplikacji została dobrana tak, by chory na zanikowe stwardnienie boczne  mógl korzystać z niej nie męcząc oczu podczas długiego korzystania. Połączenie kolorów bia\-łe\-go i niebieskiego daje wystaczający kontrast dla ludzkiego oka, by przy niewielkim wysiłku odczytać zapisany tekst. Nie można było zastosować interfejsów czarno-białych o najwyższym poziomie kontrastu ze wględu na to, iż obłe kształty przycisków w tych kolorach powodowały powstawanie złudzenia optycznego, które uniemożliwiało pracę na klawiaturze. 
 
 Pierwszym widokiem prezentowanym użytkownikowi jest widok z zablokowaną klawiaturą przedstawiony na rysunku ~\ref{fig:inactive}.  Zadbano o to, by przyciski w trybie ''wstrzymania'' przedstawione były w innym kolorze od przycisków aktywnych. Po użyciu przycisku \textit{START} klawiatura zmienia swój wygląd na jednolity, taki jak na rysunku ~\ref{fig:active}.
 Dalesze dwie grafiki ~\ref{fig:auto} oraz ~\ref{fig:textAuto} prezentują wpisywanie tekstu oraz wyświetlanie się możliwych opcji autouzupełnienia tekstu wpisywanego. 
@@ -304,7 +304,7 @@ W celu popranego przebiegu testów należy przyjąć pewne założenia:
 \item pod koniec testów z każdym z badanych przeprowadzona będzie rozmowa na temat jego subiektywnych wrażeń podczas pracy z klawiaturą.
 \end{itemize}
 
-\section{Możliwość dalszego rozwoju}
+\section{Możliwość dalszego rozwoju} \label{sec:whatMore}
 Przewidziano możliość dalszego rozwoju aplikacji wprowadzając do prototypu przyciski, których działania nie obsłużono. Są nimi \textit{Ctrl}, \textit{Alt} oraz \textit{Tekst to Speech}. Dwa pierwsze przewidziane zostały w celu współpracy z programami zewnętrznymi oraz wprowadzenia  skrótów klawiszowych (np. Ctrl+A, Ctrl+V, Ctrl+C, Ctrl+X). Należy pamiętać, że użytkownikami klawiatury są często osoby starsze, które przed zachorowaniem miały już styczność z pracą na komputerze. Wprowadzenie znanych im skrótów, czy funkcjonalności może usprawnić ich pracę z komputerem. Bardzo ważnym aspektem oferowanym przez innych producentów oprogramowania dla osób spraliżowanych, bez możliwości komunikacji werbalnej jest TextToSpeech, czyli synteza mowy na postawie tekstu. Tak zsyntetyzowana ścieżka dźwiękowa z wprowadzoną wypowiedzią mogłaby zostać odtworzona poprzez głośniki urządzenia i umożliwić werbalną komunikację z innymi osobami.
 \section{Wymagania pozafunkcjonalne}
 Podstawowymi wymaganiami pozafunkcjonalnymi są:

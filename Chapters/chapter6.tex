@@ -117,6 +117,7 @@
 
 \usepackage[section] {placeins}
 
+
 \usepackage{multirow}
 
 \usepackage{slantsc}
@@ -127,15 +128,33 @@
 \addto\captionspolish{\renewcommand*{\appendixtocname}{Dodatki}}
 \addto\captionspolish{\renewcommand*{\appendixname}{Dodatek}}
 
-
-
+\setcounter{secnumdepth}{5}
+\usepackage{listings}
 \usepackage[toc,page]{appendix}
 
-\begin{document}
 
-\chapter{Wstęp i cele pracy}
-Co to jest oprogramowanie wspomagające komunikację z komputerem
-osób cierpiących na zanikowe stwardnienie boczne? Czym jest zanikowe stwardnienie boczne? Takie pytania zapewne zada sobie wiekszość z czytelników tej pracy. Zanikowe stwardnienie boczne jest nieuleczalną chorobą, którą charakteryzuje ustrata panowania nad siłą mieśniową, a co za tym idzie całkowite zatracenie umiejętności poruszania się, a nawet mowy. Skoro więc osoba ta jest częściowo lub całkowicie sparaliżowana jej współpraca z komputerem jako stacją roboczą jest znacząco utrudniona, lub wręcz niemożliwa. Dlaczego komputer jest tak ważnym sprzętem w życiu chorego? Zapewniam im, przynajmniej częściowo, niezależność od osób postronnych. Dzięki pracy na komputerze mogą np. obługiwać sprzęt, którego uruchomienie wymagałoby użycia siły mięśni np. zaplać i gasić światło, zmienić temperaturę na termostacie, robić zakupy, a nawet niekiedy pracować. Co więcej komputer stanowi dla nich okno na świat - możliwość komunikacji i interakcji z innymi ludźmi, nie tylko przez sieć. Dzięki mechanizmom generującym mowę, czy też różnego rodzaju komunikatorów, mimo pełnego paraliżu są w stanie normalnie współistnieć w społeczeństwie.  
+\begin{document}
+\chapter{Podsumowanie}
+Projekt ten z pozoru prosty natęczył wiele problemów natury algorytmicznej, które jednak udało się rozwiązać w wystarczająco dobry sposób, by móc powiedzieć o oprogramowaniu, że spełnia założone cele projektowe opisane w podrodziale ~\ref{sec:cele}, a co więcej pozostawia miejsce na jej dalszy rozwój. Poniżej pokrótce opisane zostaną wniki realizacji projektu oraz oraz propozycje jej rozwoju.
+\section{Realizacja}
+Jak wyżej wspomniano, udało się zrealizwać wszystkie zalożone wymagania oraz doprowadzić powstałą klawiaturę ekranową do tego stopnia użyteczności, że nawet wprowadzone zostały udogodnienia typu skrót klawiszowy otwierający menu kontekstowe oraz autouzupełnienie słów. Co więcej klawiatura jest w pełni kompatybilna z polskimi literami, czego nie można powiedzieć o dotychczasowych rozwiązaniach tego typu. Aplikacja jest komunikatywna zarówno poprzez broadcast z siecią lokalną jak i z siecią internetową.  Klawiatura jest konfigurowywalna oraz personalizowywalna.  
+\subsection{Oprogramowanie}
+Powstałe oprogramowanie stanowi spójną całość z gamą algorytmów opisanych w podrozdziale ~\ref{sec:algorytmy}. Algorytmy są opracowane do poziomu wystaczającego, jednak istnieje duża możliwość ich rozwoju i udoskonalenia w celu jeszcze lepszej pracy klawiatury. Więcej na temat możliwego rozwoju aplikacji poniżej.
+\section{Możliwości dalszego rozwoju}
+Po realizacji dotychczas zaplanowanych punktów zauważono, że istnieje szereg punktów, które można w przyszłości rozwinąć. Część opisano już w podrozdziale ~\ref{sec:whatMore}. 
+\subsection{Interfejs klawiatury}
+Należało by się zastanowić jak rozwiązać problem niewystarczającej przestrzeni ekranowej dla przycisków o wymiarach minimalnych 140px na 140px. Domyślnym rozwiązaniem byłoby zwiększenie dokładności sprzętu (okluarów) lub też zwiększenie minotra - co nie jest skutecznym rozwiązaniem dla chorych na stwardnienie boczne rozsiane. 
+
+Udoskonalenia mogłyby wymagać również schematy kolorystyczne aplikacji. Wymagałoby to konsultacji z osobami chorymi, bądź osobami z ich otoczenia, czy też większego zasobu materiałów na temat optymalizacji wyglądów interfejsów oprogramowania. W wypadku oprogramownia dla chorych na ALS jest to bardzo znaczący czynnik, gdyż spędzać będą oni większość czasu na niego patrząc. Aplikacja będzie więc cześciej i dłużej wykorzystywana niż innego typu oprogramownia. Należy więc zadbać o zdrowotność interfejsu dla oczy pacjenta.  
+
+Podążająć za opinią tesujących  opisaną w ~\ref{opinion}  przemyśleć należy również jak uczyniść interfejs bardziej intuicyjnym oraz jednocznacznym. 
+\subsection{Algorytmy}
+Odnosząc się również do punktu ~\ref{opinion} zdecydowanie należy rozwinąć mechanizm słownikowy, tak by ten działał na system wagowy tzn. sugerował się częstością użycia danego słowa, a dopiero w drugiej kolejności alfabetycznym porządkiem. Znaczącym ułatwieniem byłoby również automatyczne uzupełnianie słownika o nieistniejące słowa często używane, oraz możliwość ręcznego usunięcia słów nieużywanych. 
+
+Dopracowania może wymagać również algorytm poruszania się po tekście.Należałoby umożliwić łatwe przewijanie tekstu w edytorze, jego zapisywanie oraz wczytywanie. Nacisk należy położyć na komunikację klawiatury z komputerem oraz programami zewnętrznymi.  Jeśli to byłoby możliwe, można by było zrezygować z dedykowanego API Google do wyszukiwania. 
+
+Jednym z najważniejszych punktów wymagających jeszcze realizacji jest syntezator mowy, który symylowałaby wypowiadanie aktualnie wpisywanego tekstu. Aktulnie możliwość komunikacji jest zastąpiona przez wiadomości broadcast, jednak w celu symulacji naturalnej konwersacji syntezator ten jest niezbędnym czynnikiem. Bez niego konwersacje za pomocą klawiatry ekranowej są powolne i nienaturalne.
+ 
 
 
 \end{document}
